@@ -1,0 +1,18 @@
+#nav-title{
+    font-weight: 700;
+    font-size: 20px;
+}
+
+#top-part{
+    display: grid;
+    padding: 10px;
+    width: 100%;
+    background: grey;
+    grid-template-columns: 20% 80%;
+}
+
+.nav-btn{
+    float: right;
+    margin-right: 30px;
+    outline: none;
+}

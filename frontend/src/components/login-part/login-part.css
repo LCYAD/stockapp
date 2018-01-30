@@ -1,0 +1,28 @@
+#login-part {
+    margin-left: 35%;
+    margin-right: 35%;
+    margin-top: 50px;
+}
+
+#form-container {
+    border: solid 1px grey;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+#form-switch {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    text-align: center;
+}
+
+.link-switch {
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.switch-border {
+    border: 2.5px solid rgba(128, 128, 128, 0.459);
+    border-radius: 20px;
+    margin-bottom: 20px;
+}
