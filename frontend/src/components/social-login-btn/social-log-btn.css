@@ -2,5 +2,7 @@
     margin: 10px 0px;
     border-radius: 5px;
     padding: 15px 20px;
-    background: rgba(1, 1, 255, 0.493);
+    background: #3b5998;
+    color: white;
+    font-weight: 700;
 }

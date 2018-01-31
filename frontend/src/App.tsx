@@ -17,12 +17,12 @@ interface AppState { }
 class App extends React.Component<AppProps, AppState> {
 
   render() {
-    // console.log(this.props.token);
+    let isLoggedInNow = this.props.isLoggedIn;
     const PrivateRoute = ({ component: Component, ...rest }: any) => (
       <Route
         {...rest}
         render={(props) => (
-          this.props.isLoggedIn
+          isLoggedInNow
             ? <Component {...props}/>
             : <Redirect to="/login/login" />
         )}
@@ -33,7 +33,7 @@ class App extends React.Component<AppProps, AppState> {
       <Route
         {...rest}
         render={(props) => (
-          this.props.isLoggedIn
+          isLoggedInNow
             ? <Redirect to="/main" />
             : <Component {...props}/>
         )}
@@ -47,11 +47,11 @@ class App extends React.Component<AppProps, AppState> {
           <TopBar />
 
           <Switch>
-            <PrivateRoute
+            <Route
               exact={true}
               path="/"
               render={() => (
-                this.props.isLoggedIn
+                isLoggedInNow
                   ? <MainPart />
                   : <Redirect to="/login/login" />
               )}

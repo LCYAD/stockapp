@@ -1,9 +1,8 @@
 import * as React from 'react';
-import './top-bar.css';
-
+import { Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
-
 import { connect } from 'react-redux';
+import './top-bar.css';
 
 import { removeToken } from '../../actions/userAction';
 
@@ -39,7 +38,13 @@ class TopBar extends React.Component<TopBarProps, TopBarState> {
       if (this.props.isLoggedIn) {
         return (
           <div id="login-group">
-            <button className="nav-btn" onClick={this.logOut}>Logout</button>
+          <Button 
+            basic={true}
+            className="nav-btn" 
+            onClick={this.logOut}
+            content="Log Out"
+            color="black"
+          />
           </div>
         );
       } else {
@@ -50,7 +55,7 @@ class TopBar extends React.Component<TopBarProps, TopBarState> {
     return (
       <div id="top-part">
         <div id="nav-title">
-          Trader Den
+          Trader <sup>Den</sup>
         </div>
         {logoutBtn()}
         {fireRedirect && (
