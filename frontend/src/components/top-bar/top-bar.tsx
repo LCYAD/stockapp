@@ -1,18 +1,19 @@
 import * as React from 'react';
 import './top-bar.css';
 
-import { Route, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 
 import { removeToken } from '../../actions/userAction';
 
-interface TopBarProps { 
+interface TopBarProps {
   removeToken: Function;
+  isLoggedIn: boolean;
 }
 
 interface TopBarState {
-  fireRedirect: boolean; 
+  fireRedirect: boolean;
 }
 
 class TopBar extends React.Component<TopBarProps, TopBarState> {
@@ -31,34 +32,40 @@ class TopBar extends React.Component<TopBarProps, TopBarState> {
   }
 
   render() {
-
+    console.log(this.props.isLoggedIn);
     const { fireRedirect } = this.state;
+
+    const logoutBtn = () => {
+      if (this.props.isLoggedIn) {
+        return (
+          <div id="login-group">
+            <button className="nav-btn" onClick={this.logOut}>Logout</button>
+          </div>
+        );
+      } else {
+        return <div />;
+      }
+    };
 
     return (
       <div id="top-part">
         <div id="nav-title">
-          Title here
+          Trader Den
         </div>
-        <Route
-          path="/main"
-          render={() =>
-            <div id="login-group">
-              <button className="nav-btn" onClick={this.logOut}>Logout</button>
-            </div>
-          }
-        />
-        
+        {logoutBtn()}
         {fireRedirect && (
           <Redirect to={'/login/login'} />
         )}
       </div>
-      
+
     );
   }
 } // End TopBar Class
 
 const mapStatetoProps = (state: any) => {
-  return {};
+  return {
+    isLoggedIn: state.user.isLoggedIn
+  };
 };
 
 const mapDispatchToProps = (dispatch: any) => {

@@ -9,7 +9,7 @@ import MainPart from './components/main-part/main-part';
 import LoginPart from './components/login-part/login-part';
 
 interface AppProps {
-  token: string | null;
+  isLoggedIn: boolean;
 }
 
 interface AppState { }
@@ -21,10 +21,21 @@ class App extends React.Component<AppProps, AppState> {
     const PrivateRoute = ({ component: Component, ...rest }: any) => (
       <Route
         {...rest}
-        render={() => (
-          this.props.token !== null
-            ? <Component />
+        render={(props) => (
+          this.props.isLoggedIn
+            ? <Component {...props}/>
             : <Redirect to="/login/login" />
+        )}
+      />
+    );
+
+    const LoginRoute = ({ component: Component, ...rest }: any) => (
+      <Route
+        {...rest}
+        render={(props) => (
+          this.props.isLoggedIn
+            ? <Redirect to="/main" />
+            : <Component {...props}/>
         )}
       />
     );
@@ -36,12 +47,12 @@ class App extends React.Component<AppProps, AppState> {
           <TopBar />
 
           <Switch>
-            <Route
+            <PrivateRoute
               exact={true}
               path="/"
               render={() => (
-                this.props.token !== null
-                  ? <Redirect to="/main" />
+                this.props.isLoggedIn
+                  ? <MainPart />
                   : <Redirect to="/login/login" />
               )}
             />
@@ -49,7 +60,7 @@ class App extends React.Component<AppProps, AppState> {
               path="/main"
               component={MainPart}
             />
-            <Route
+            <LoginRoute
               path="/login"
               component={LoginPart}
             />
@@ -62,7 +73,7 @@ class App extends React.Component<AppProps, AppState> {
 
 const mapStatetoProps = (state: any) => {
   return {
-    token: state.user.token
+    isLoggedIn: state.user.isLoggedIn
   };
 };
 
