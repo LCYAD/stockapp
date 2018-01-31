@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './login-form.css';
 import axios from 'axios';
+import { Button, Divider } from 'semantic-ui-react';
 
 import { connect } from 'react-redux';
 
@@ -85,7 +86,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
         email: this.state.emailvalue,
         password: this.state.passwordvalue
       }).then((res) => {
-        console.log(res.data.token);
+        // console.log(res.data.token);
         // add the token onto the store
         this.props.addToken(res.data.token);
         this.setState({ fireRedirect: true });
@@ -190,9 +191,12 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
             onChange={this.passwordValidator}
           />
           {passwordwarning}
-          <input id="submit-btn" type="submit" value="Submit" />
+          <Button basic={true} color="blue" id="submit-btn" type="submit">Submit</Button>
         </form>
-        <hr />
+        <Divider 
+          horizontal={true}
+        >Or
+        </Divider>
         <div id="social-container">
           <SocialButton
             provider="facebook"
@@ -200,7 +204,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
             onLoginSuccess={this.handleSocialLogin}
             onLoginFailure={this.handleSocialLoginFailure}
           >
-            Facebook Login
+            Facebook
           </SocialButton>
         </div>
         {fireRedirect && (

@@ -2,6 +2,8 @@ import * as React from 'react';
 import './signup-form.css';
 import axios from 'axios';
 
+import { Button } from 'semantic-ui-react';
+
 import { Redirect } from 'react-router-dom';
 
 import { connect } from 'react-redux';
@@ -211,7 +213,7 @@ class SignForm extends React.Component<SignFormProps, SignFormState> {
             onChange={this.confirmpasswordValidator}
           />
           {confirmpasswordwarning}
-          <input id="submit-btn" type="submit" value="Submit" />
+          <Button basic={true} color="blue" id="submit-btn" type="submit">Submit</Button>
         </form>
 
         {fireRedirect && (

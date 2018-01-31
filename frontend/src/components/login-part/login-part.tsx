@@ -2,6 +2,7 @@ import * as React from 'react';
 import './login-part.css';
 
 import { Route, Switch, NavLink } from 'react-router-dom';
+import { Divider } from 'semantic-ui-react';
 
 import LoginForm from './login-form/login-form';
 import SignupForm from './signup-form/signup-form';
@@ -36,7 +37,9 @@ class LoginPart extends React.Component<LoginPartProps, LoginPartState> {
               </NavLink>
             </div>
           </div>
-          <hr className="switch-border"/>
+          <Divider 
+            section={true}
+          />
           <Switch>
             <Route
               path={`${this.props.match.path}/login`}
