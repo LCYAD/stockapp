@@ -2,9 +2,7 @@ import * as React from 'react';
 import './signup-form.css';
 import axios from 'axios';
 
-import { Button } from 'semantic-ui-react';
-
-import { Redirect } from 'react-router-dom';
+import { Button, Form } from 'semantic-ui-react';
 
 import { connect } from 'react-redux';
 
@@ -27,7 +25,6 @@ interface SignFormState {
   emaildirty: boolean;
   passworddirty: boolean;
   confirmpassworddirty: boolean;
-  fireRedirect: boolean;
 }
 
 class SignForm extends React.Component<SignFormProps, SignFormState> {
@@ -49,7 +46,6 @@ class SignForm extends React.Component<SignFormProps, SignFormState> {
       emaildirty: false,
       passworddirty: false,
       confirmpassworddirty: false,
-      fireRedirect: false,
     };
 
     this.emailtest = new RegExp(['^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\\"]+)*)',
@@ -75,7 +71,6 @@ class SignForm extends React.Component<SignFormProps, SignFormState> {
         console.log(res.data.token);
         // add the token onto the store
         this.props.addToken(res.data.token);
-        this.setState({ fireRedirect: true });
       }).catch((err) => {
         console.log(err);
       });
@@ -151,8 +146,6 @@ class SignForm extends React.Component<SignFormProps, SignFormState> {
     let passwordwarning = null;
     let confirmpasswordwarning = null;
 
-    const { fireRedirect } = this.state;
-
     if (this.state.emailerror_length) {
       emailwarning1 = <div className="form-warning"> <i>Please input a Email</i> </div>;
     } else if (this.state.emailerror_valid) {
@@ -172,53 +165,56 @@ class SignForm extends React.Component<SignFormProps, SignFormState> {
 
     return (
       <div id="signup-form">
-        <form onSubmit={this.submitForm}>
-          <p
-            className="form-title"
+        <Form 
+          size={'large'}
+          key={'large'}
+          onSubmit={this.submitForm}
+        >
+          <Form.Group 
+            widths="equal"
           >
-            <i>Email</i>
-          </p>
-          <input
-            className="form-input"
-            type="text"
-            placeholder="Enter Email"
-            value={this.state.emailvalue}
-            onChange={this.emailValidator}
-          />
+            <Form.Field
+              required={true}
+              className="form-input"
+              label="Email"
+              control="input"
+              placeholder="Enter Email"
+              value={this.state.emailvalue}
+              onChange={this.emailValidator}
+            />
+          </Form.Group>
           {emailwarning1}
           {emailwarning2}
-          <p
-            className="form-title"
+          <Form.Group 
+            widths="equal"
           >
-            <i>Password</i>
-          </p>
-          <input
-            className="form-input"
-            type="text"
-            placeholder="Enter password"
-            value={this.state.passwordvalue}
-            onChange={this.passwordValidator}
-          />
+            <Form.Field
+              required={true}
+              className="form-input"
+              label="Password"
+              control="input"
+              placeholder="Enter Password"
+              value={this.state.passwordvalue}
+              onChange={this.passwordValidator}
+            />
+          </Form.Group>
           {passwordwarning}
-          <p
-            className="form-title"
+          <Form.Group 
+            widths="equal"
           >
-            <i>Confirm Password</i>
-          </p>
-          <input
-            className="form-input"
-            type="text"
-            placeholder="Confirm your password"
-            value={this.state.confirmpasswordvalue}
-            onChange={this.confirmpasswordValidator}
-          />
+            <Form.Field
+              required={true}
+              className="form-input"
+              label="Confirm Password"
+              control="input"
+              placeholder="Confirm your password"
+              value={this.state.confirmpasswordvalue}
+              onChange={this.confirmpasswordValidator}
+            />
+          </Form.Group>
           {confirmpasswordwarning}
           <Button basic={true} color="blue" id="submit-btn" type="submit">Submit</Button>
-        </form>
-
-        {fireRedirect && (
-          <Redirect to={'/main'} />
-        )}
+        </Form>
       </div>
     );
   }

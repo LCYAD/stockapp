@@ -1,5 +1,22 @@
 #main-part{
-    height: 90%;
+    min-height: 95vh;
     width: 100%;
+    display: grid;
+    grid-template-columns: 10% 80% 10%;
+}
+
+#left-panel{
+    background: green;
+    min-height: 95vh;
+}
+
+#center-panel{
+    background: yellow;
+    min-height: 95vh;
+}
+
+#right-panel{
+    background: red;
+    min-height: 95vh;
 }
   

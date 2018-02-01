@@ -1,13 +1,11 @@
 import * as React from 'react';
 import './login-form.css';
 import axios from 'axios';
-import { Button, Divider } from 'semantic-ui-react';
+import { Button, Divider, Form } from 'semantic-ui-react';
 
 import { connect } from 'react-redux';
 
 import SocialButton from '../../../components/social-login-btn/social-login-btn';
-
-import { Redirect } from 'react-router-dom';
 
 // import action
 import { addToken } from '../../../actions/userAction';
@@ -25,7 +23,6 @@ interface LoginFormState {
   passwordvalid: boolean;
   emaildirty: boolean;
   passworddirty: boolean;
-  fireRedirect: boolean;
 }
 
 class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
@@ -44,7 +41,6 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
       passwordvalid: true,
       emaildirty: false,
       passworddirty: false,
-      fireRedirect: false,
     };
 
     this.emailtest = new RegExp(['^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\\"]+)*)',
@@ -67,7 +63,6 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
       console.log(res.data.token);
       // add the token onto the store
       this.props.addToken(res.data.token);
-      this.setState({ fireRedirect: true });
     }).catch((err) => {
       console.log(err);
     });
@@ -89,7 +84,6 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
         // console.log(res.data.token);
         // add the token onto the store
         this.props.addToken(res.data.token);
-        this.setState({ fireRedirect: true });
       }).catch((err) => {
         console.log(err);
       });
@@ -146,8 +140,6 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
     let emailwarning2 = null;
     let passwordwarning = null;
 
-    const { fireRedirect } = this.state;
-
     if (this.state.emailerror_length) {
       emailwarning1 = <div className="form-warning"> <i>Please input a Email</i> </div>;
     } else if (this.state.emailerror_valid) {
@@ -163,36 +155,42 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
 
     return (
       <div id="login-form">
-        <form onSubmit={this.submitForm}>
-          <p
-            className="form-title"
+        <Form 
+          size={'large'}
+          key={'large'}
+          onSubmit={this.submitForm}
+        >
+          <Form.Group 
+            widths="equal"
           >
-            <i>Email</i>
-          </p>
-          <input
-            className="form-input"
-            type="text"
-            placeholder="Enter Email"
-            value={this.state.emailvalue}
-            onChange={this.emailValidator}
-          />
+            <Form.Field
+              required={true}
+              className="form-input"
+              label="Email"
+              control="input"
+              placeholder="Enter Email"
+              value={this.state.emailvalue}
+              onChange={this.emailValidator}
+            />
+          </Form.Group>
           {emailwarning1}
           {emailwarning2}
-          <p
-            className="form-title"
+          <Form.Group 
+            widths="equal"
           >
-            <i>Password</i>
-          </p>
-          <input
-            className="form-input"
-            type="text"
-            placeholder="Enter password"
-            value={this.state.passwordvalue}
-            onChange={this.passwordValidator}
-          />
+            <Form.Field
+              required={true}
+              className="form-input"
+              label="Password"
+              control="input"
+              placeholder="Enter Password"
+              value={this.state.passwordvalue}
+              onChange={this.passwordValidator}
+            />
+          </Form.Group>
           {passwordwarning}
           <Button basic={true} color="blue" id="submit-btn" type="submit">Submit</Button>
-        </form>
+        </Form>
         <Divider 
           horizontal={true}
         >Or
@@ -207,9 +205,6 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
             Facebook
           </SocialButton>
         </div>
-        {fireRedirect && (
-          <Redirect to={'/main'} />
-        )}
       </div>
     );
   }

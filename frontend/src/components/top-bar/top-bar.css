@@ -12,7 +12,8 @@
     padding: 10px;
     width: 100%;
     background: rgba(128, 128, 128, 0.8);
-    grid-template-columns: 20% 80%;
+    grid-template-columns: 20% 60% 20%;
+    min-height: 5vh;
 }
 
 .nav-btn{

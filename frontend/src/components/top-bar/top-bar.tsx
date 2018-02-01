@@ -1,38 +1,32 @@
 import * as React from 'react';
 import { Button } from 'semantic-ui-react';
-import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './top-bar.css';
 
 import { removeToken } from '../../actions/userAction';
+
+import Notification  from './notification/notification';
 
 interface TopBarProps {
   removeToken: Function;
   isLoggedIn: boolean;
 }
 
-interface TopBarState {
-  fireRedirect: boolean;
-}
+interface TopBarState {}
 
 class TopBar extends React.Component<TopBarProps, TopBarState> {
 
   constructor(props: any) {
     super(props);
     this.logOut = this.logOut.bind(this);
-    this.state = {
-      fireRedirect: false
-    };
   }
 
   logOut() {
     this.props.removeToken();
-    this.setState({ fireRedirect: true });
   }
 
   render() {
     console.log(this.props.isLoggedIn);
-    const { fireRedirect } = this.state;
 
     const logoutBtn = () => {
       if (this.props.isLoggedIn) {
@@ -57,10 +51,8 @@ class TopBar extends React.Component<TopBarProps, TopBarState> {
         <div id="nav-title">
           Trader <sup>Den</sup>
         </div>
+        <Notification/>
         {logoutBtn()}
-        {fireRedirect && (
-          <Redirect to={'/login/login'} />
-        )}
       </div>
 
     );
