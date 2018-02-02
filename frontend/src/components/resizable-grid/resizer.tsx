@@ -7,10 +7,10 @@ interface ResizableProps {
     fullScreen?: boolean;
     style: {
         display: string;
-        flexDirection: 'initial' | 'inherit' | 'unset' | 'row' | 'row-reverse' | 
-                        'column' | 'column-reverse' | undefined;
-        overflow: 'initial' | 'inherit' | 'unset' | 'auto' | 'hidden' | 
-                'scroll' | 'visible' | undefined;
+        flexDirection: 'initial' | 'inherit' | 'unset' | 'row' | 'row-reverse' |
+        'column' | 'column-reverse' | undefined;
+        overflow: 'initial' | 'inherit' | 'unset' | 'auto' | 'hidden' |
+        'scroll' | 'visible' | undefined;
         minHeight: string;
         maxHeight: string;
     };
@@ -19,8 +19,8 @@ interface ResizableProps {
 interface ResizableState {
     style: {
         display: string;
-        flexDirection: 'initial' | 'inherit' | 'unset' | 'row' | 'row-reverse' | 
-                        'column' | 'column-reverse' | undefined;
+        flexDirection: 'initial' | 'inherit' | 'unset' | 'row' | 'row-reverse' |
+        'column' | 'column-reverse' | undefined;
         overflow: 'initial' | 'inherit' | 'unset' | 'auto' | 'hidden' | 'scroll' | 'visible' | undefined;
         minHeight: string;
         maxHeight: string;
@@ -47,7 +47,9 @@ export class Resizable extends React.Component<ResizableProps, ResizableState> {
     componentDidMount() {
         var childs = ReactDOM.findDOMNode(this).childNodes;
         var e: any = childs[childs.length - 1];
-        if (e !== undefined) {e.style.flex = '1 1 auto';};
+        if (e !== undefined) { 
+            e.style.flex = '1 1 auto'; 
+        }
         if (this.props.fullScreen) {
             this.updateComponentMaxHeight();
         }
@@ -83,16 +85,16 @@ export class Resizable extends React.Component<ResizableProps, ResizableState> {
 interface RowsProps {
     style: {
         display: string;
-        flexDirection: 'initial' | 'inherit' | 'unset' | 'row' | 
-                        'row-reverse' | 'column' | 'column-reverse' | undefined;
-        overflow: 'initial' | 'inherit' | 'unset' | 'auto' | 'hidden' 
-                | 'scroll' | 'visible' | undefined;
+        flexDirection: 'initial' | 'inherit' | 'unset' | 'row' |
+        'row-reverse' | 'column' | 'column-reverse' | undefined;
+        overflow: 'initial' | 'inherit' | 'unset' | 'auto' | 'hidden'
+        | 'scroll' | 'visible' | undefined;
         minHeight: string;
         maxHeight: string;
     };
 }
 
-interface RowsState {}
+interface RowsState { }
 
 export class Rows extends React.Component<RowsProps, RowsState> {
     constructor(props: any) {
@@ -116,7 +118,7 @@ interface ColumnsProps {
     };
 }
 
-interface ColumnsState {}
+interface ColumnsState { }
 
 export class Columns extends React.Component<ColumnsProps, ColumnsState> {
     constructor(props: any) {
