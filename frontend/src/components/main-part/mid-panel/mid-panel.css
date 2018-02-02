@@ -1,0 +1,14 @@
+.main-seg {
+    height: 95vh;
+    background: rgba(36, 34, 34, 0.8) !important;
+}
+
+.main-sidebar {
+    height: 95vh;
+    background: rgb(167, 160, 160);
+}
+
+.main-rightsidebar {
+    height: 95vh;
+    background: rgb(167, 160, 160);
+}

@@ -2,21 +2,16 @@
     min-height: 95vh;
     width: 100%;
     display: grid;
-    grid-template-columns: 10% 80% 10%;
+    grid-template-columns: 8% 92%;
 }
 
 #left-panel{
-    background: green;
+    background: rgba(36, 34, 34, 0.8);
     min-height: 95vh;
+    border-right: 2px solid grey;
 }
 
-#center-panel{
-    background: yellow;
+#mid-panel{
+    background: rgba(36, 34, 34, 0.8);
     min-height: 95vh;
 }
-
-#right-panel{
-    background: red;
-    min-height: 95vh;
-}
-  

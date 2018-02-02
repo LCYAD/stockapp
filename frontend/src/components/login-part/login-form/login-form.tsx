@@ -9,9 +9,15 @@ import SocialButton from '../../../components/social-login-btn/social-login-btn'
 
 // import action
 import { addToken } from '../../../actions/userAction';
+import { successMsg, failMsg, hideMsg } from '../../../actions/notificationAction';
+import { hideLeftPanel, hideRightPanel } from '../../../actions/panelToggleAction';
 
 interface LoginFormProps {
   addToken: Function;
+  sendSuccessMsg: Function;
+  sendFailMsg: Function;
+  hideLeftPanel: Function;
+  hideRightPanel: Function;
 }
 
 interface LoginFormState {
@@ -55,6 +61,11 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
     this.handleSocialLoginFailure = this.handleSocialLoginFailure.bind(this);
   }
 
+  componentWillMount() {
+    this.props.hideLeftPanel();
+    this.props.hideRightPanel();
+  }
+
   handleSocialLogin(user: any) {
     console.log(user._token);
     axios.post('http://localhost:8080/api/login/facebook', {
@@ -63,13 +74,16 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
       console.log(res.data.token);
       // add the token onto the store
       this.props.addToken(res.data.token);
+      this.props.sendSuccessMsg('Login Success', 'You can now access our app!');
     }).catch((err) => {
       console.log(err);
+      this.props.sendFailMsg('Login Failed', 'Something went wrong!');
     });
   }
 
   handleSocialLoginFailure(err: any) {
-    console.error(err);
+    console.log(err);
+    this.props.sendFailMsg('Login Failed', 'Please check your login credential!');
   }
 
   submitForm(e: any): void {
@@ -83,9 +97,12 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
       }).then((res) => {
         // console.log(res.data.token);
         // add the token onto the store
+        this.props.sendSuccessMsg('Login Success', 'You can now access our app!');
         this.props.addToken(res.data.token);
+
       }).catch((err) => {
         console.log(err);
+        this.props.sendFailMsg('Login Failed', 'Please check your input!');
       });
     }
   }
@@ -155,12 +172,12 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
 
     return (
       <div id="login-form">
-        <Form 
+        <Form
           size={'large'}
           key={'large'}
           onSubmit={this.submitForm}
         >
-          <Form.Group 
+          <Form.Group
             widths="equal"
           >
             <Form.Field
@@ -175,7 +192,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
           </Form.Group>
           {emailwarning1}
           {emailwarning2}
-          <Form.Group 
+          <Form.Group
             widths="equal"
           >
             <Form.Field
@@ -191,7 +208,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
           {passwordwarning}
           <Button basic={true} color="blue" id="submit-btn" type="submit">Submit</Button>
         </Form>
-        <Divider 
+        <Divider
           horizontal={true}
         >Or
         </Divider>
@@ -218,7 +235,21 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     addToken: (token: string) => {
       dispatch(addToken(token));
-    }
+    },
+    sendSuccessMsg: (title: string, message: string) => {
+      dispatch(successMsg(title, message));
+      setTimeout(() => { dispatch(hideMsg()); }, 3000);
+    },
+    sendFailMsg: (title: string, message: string) => {
+      dispatch(failMsg(title, message));
+      setTimeout(() => { dispatch(hideMsg()); }, 3000);
+    },
+    hideLeftPanel: () => {
+      dispatch(hideLeftPanel());
+    },
+    hideRightPanel: () => {
+      dispatch(hideRightPanel());
+    },
   };
 };
 

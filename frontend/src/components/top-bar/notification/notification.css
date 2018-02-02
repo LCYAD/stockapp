@@ -1,3 +1,35 @@
 #notification-bar {
     text-align:center;
 }
+
+.success {
+    opacity: 1;
+    box-shadow: 0 0 0 1px #a3c293 inset, 0 0 0 0 transparent;
+    background: #fcfff5;
+    padding: 5px 0px;
+    color: #70965e;
+}
+
+.fail {
+    opacity: 1;
+    box-shadow: 0 0 0 1px #9f3a38 inset, 0 0 0 0 transparent;
+    background: #e2c3c3ec;
+    padding: 5px 0px;
+    color: #9f3a38;
+}
+
+.hide {
+    opacity: 0;
+    transition: 0.5s;
+}
+
+.notification-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin-right: 18px;
+}
+
+.notification-msg {
+    font-size: 12px;
+}
+

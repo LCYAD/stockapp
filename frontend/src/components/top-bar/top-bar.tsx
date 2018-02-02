@@ -1,15 +1,17 @@
 import * as React from 'react';
-import { Button } from 'semantic-ui-react';
+import { Button, Icon } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import './top-bar.css';
 
 import { removeToken } from '../../actions/userAction';
+import { successMsg, hideMsg } from '../../actions/notificationAction';
 
 import Notification  from './notification/notification';
 
 interface TopBarProps {
   removeToken: Function;
   isLoggedIn: boolean;
+  sendSuccessMsg: Function;
 }
 
 interface TopBarState {}
@@ -23,6 +25,7 @@ class TopBar extends React.Component<TopBarProps, TopBarState> {
 
   logOut() {
     this.props.removeToken();
+    this.props.sendSuccessMsg('Log Out Successful!', 'See you again!');
   }
 
   render() {
@@ -32,13 +35,26 @@ class TopBar extends React.Component<TopBarProps, TopBarState> {
       if (this.props.isLoggedIn) {
         return (
           <div id="login-group">
-          <Button 
-            basic={true}
-            className="nav-btn" 
-            onClick={this.logOut}
-            content="Log Out"
-            color="black"
-          />
+            <Button
+              animated={true}
+              inverted={true}
+              onClick={this.logOut}
+              size="tiny"
+              floated="right"
+            >
+              <Button.Content
+                visible={true}
+              >
+                <Icon
+                    name="log out"
+                />
+              </Button.Content>
+              <Button.Content
+                hidden={true}
+              >
+                  Log Out
+              </Button.Content>
+            </Button>
           </div>
         );
       } else {
@@ -51,7 +67,9 @@ class TopBar extends React.Component<TopBarProps, TopBarState> {
         <div id="nav-title">
           Trader <sup>Den</sup>
         </div>
+        <div/>
         <Notification/>
+        <div/>
         {logoutBtn()}
       </div>
 
@@ -69,6 +87,10 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     removeToken: () => {
       dispatch(removeToken());
+    },
+    sendSuccessMsg: (title: string, message: string) => {
+      dispatch(successMsg(title, message));
+      setTimeout(() => { dispatch(hideMsg()); }, 3000);
     }
   };
 };

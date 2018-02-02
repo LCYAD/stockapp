@@ -8,9 +8,12 @@ import { connect } from 'react-redux';
 
 // import action
 import { addToken } from '../../../actions/userAction';
+import { successMsg, failMsg, hideMsg } from '../../../actions/notificationAction';
 
 interface SignFormProps {
   addToken: Function;
+  sendSuccessMsg: Function;
+  sendFailMsg: Function;
 }
 
 interface SignFormState {
@@ -71,8 +74,10 @@ class SignForm extends React.Component<SignFormProps, SignFormState> {
         console.log(res.data.token);
         // add the token onto the store
         this.props.addToken(res.data.token);
+        this.props.sendSuccessMsg('Sign Up Successful!', 'Take a look around.');
       }).catch((err) => {
         console.log(err);
+        this.props.sendFailMsg('Sign Up Unsuccessful!', 'Please check your input.');
       });
     }
   }
@@ -228,7 +233,15 @@ const mapDispatchToProps = (dispatch: any) => {
   return {
     addToken: (token: string) => {
       dispatch(addToken(token));
-    }
+    },
+    sendSuccessMsg: (title: string, message: string) => {
+      dispatch(successMsg(title, message));
+      setTimeout(() => { dispatch(hideMsg()); }, 3000);
+    },
+    sendFailMsg: (title: string, message: string) => {
+      dispatch(failMsg(title, message));
+      setTimeout(() => { dispatch(hideMsg()); }, 3000);
+    },
   };
 };
 

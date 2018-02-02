@@ -1,6 +1,9 @@
 import * as React from 'react';
 import './main-part.css';
 
+import LeftPanel  from './left-panel/left-panel';
+import MidPanel from './mid-panel/mid-panel';
+
 interface MainPartProps { }
 
 interface MainPartState { }
@@ -10,13 +13,10 @@ class MainPart extends React.Component<MainPartProps, MainPartState> {
     return (
         <div id="main-part">
             <div id="left-panel">
-              This is the left panel
+              <LeftPanel/>
             </div>
-            <div id="center-panel">
-              This is the middle panel
-            </div>
-            <div id="right-panel">
-              This is the right panel
+            <div id="mid-panel">
+              <MidPanel/>
             </div>
         </div>
     );

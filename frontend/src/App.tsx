@@ -79,7 +79,7 @@ const mapStatetoProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-
+    
   };
 };
 

@@ -1,0 +1,15 @@
+#panel-grid {
+    text-align: center;
+    display: grid;
+    grid-template-rows: 40% 30% 30%;
+    height: 95vh;
+}
+
+.left-link-btn {
+    margin: 20px 0px;
+}
+
+.panel-link-tag {
+    font-size: 12px;
+    font-weight: 700;
+}
