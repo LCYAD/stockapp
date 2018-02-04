@@ -1,6 +1,5 @@
 var { isNotDefined, isDefined } = require("react-stockcharts/lib/utils");
 
-
 export function saveInteractiveNode(this: any, chartId: any) {
 	return (node:any) => {
 		this[`node_${chartId}`] = node;

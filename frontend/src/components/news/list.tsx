@@ -1,29 +1,37 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
+import { Dropdown } from 'semantic-ui-react'
 //import { fetchNews } from '../actions/newsAction';
 
 interface ListsProps {
-  newsKey: '';
+  currentInstrument: '';
   fetchNews: Function;
+  fetchDropdown: Function;
 }
 
 interface ListsState {
-  newsKey: '';
+  currentInstrument: '';
+}
+
+var countryOptions = [
+  { value: 'AAPL', text: 'Apple' },
+  { value: 'AMZN', text: 'Amazon' },
+  { value: 'BABA', text: 'Alibaba' },
+  { value: 'IBM', text: 'IBM' },
+  { value: 'TSLA', text: 'Tesla' },
+  { value: 'SNE', text: 'Sony' },
+  { value: 'JYN', text: 'JPY/USD' },
+  { value: 'GBB', text: 'GBP/USD' },
+  { value: 'ERO', text: 'EUR/USD' },
+];
+var dropdownStyle = {
+  width: '200px'
 }
 
 class Lists extends React.Component<ListsProps, ListsState> {
     constructor(props: ListsProps) {
       super(props);
     }
-
-    /*
-    getInitialState() {
-      return {
-          newsKey: 'AAPL'
-      }
-    }
-*/
-
     /*
     changeSelected(event: { target: { value: any; }; }) {
       //this.setState({newsKey: event.target.value});
@@ -34,7 +42,8 @@ class Lists extends React.Component<ListsProps, ListsState> {
     render() {
       return (
         <div>
-            <select id="select_news" onChange={(e) => this.props.fetchNews(e)}>
+          <Dropdown id="select_news" onChange={(e,data) => this.props.fetchDropdown(data.value)} style = {dropdownStyle} placeholder='Select Country' fluid search selection options={countryOptions} />
+            {/* <select id="select_news" onChange={(e) => this.props.fetchNews(e)}>
               <option value="AAPL">Apple</option>
               <option value="AMZN">Amazon</option>
               <option value="BABA">Alibaba</option>
@@ -44,14 +53,20 @@ class Lists extends React.Component<ListsProps, ListsState> {
               <option value="JYN">JPY/USD</option>
               <option value="GBB">GBP/USD</option>
               <option value="ERO">EUR/USD</option>
-            </select>
+            </select> */}
         </div>
       );
     }
 }
 
-const ConnectedLists = connect((state: ListsState) => ({
-  newsKey: state.newsKey,
-}))(Lists);
+const mapStatetoProps = (state: any) => {
+  return {
+    currentInstrument: state.currentInstrument,
+  };
+};
 
-export default ConnectedLists;
+// const ConnectedLists = connect((state: ListsState) => ({
+//   newsKey: state.newsKey,
+// }))(Lists);
+
+export default connect(mapStatetoProps, {})(Lists);

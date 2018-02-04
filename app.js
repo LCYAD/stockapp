@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const uuid = require('uuid4');
 const cors = require('cors');
+const axios = require('axios');
 
 //knex declaration
 require('dotenv').config();
@@ -32,6 +33,13 @@ const config = require('./config');
 
 //declare express app
 const app = express();
+
+// // socket IO ======================================================================
+// require('./oanda/sio.js').receiveIO(io); // passing io sockets to module
+
+// // Oanda API ======================================================================
+// const oanda = require('./oanda/oanda.js');
+// oanda.requestData();
 
 //middleware setting
 app.use(logger('dev'));
@@ -62,5 +70,19 @@ app.use(function(err, req, res, next) {
 });
 
 app.listen(8080);
+
+// axios.post(
+//     "/post", {
+//         params : {
+//             arg01: "nothing"
+//         }
+//     }
+// )
+// .then (
+//     result => console.log(result)
+// )
+// .catch (
+//     error => console.log(error)
+// );
 
 module.exports = app;

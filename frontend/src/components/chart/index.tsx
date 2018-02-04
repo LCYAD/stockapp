@@ -2,27 +2,56 @@
 import * as React from 'react';
 //import { render } from 'react-dom';
 import Chart from './chart';
-import { getData } from "./utils"
+//import { getData } from "./utils"
 import { connect } from 'react-redux';
 
 //var { TypeChooser } = require ("react-stockcharts/lib/helper");
 
-class ChartComponent extends React.Component {
+interface ChartProps {
+	//currentInstrument: '';
+	fetchData?: any;
+	newsReducer?: any;
+  }
+
+class ChartComponent extends React.Component<ChartProps> {
 	state: any;
-	componentDidMount() {
-		getData().then(data => {
-			this.setState({ data })
-			console.log(data);
-		})
+	//oandaInstrument: string = "EUR_USD";
+	constructor(props: ChartProps) {
+		super(props);
 	}
+
+	componentDidMount() {		
+		// getData(this.props.newsReducer.oandaInstrument/*"EUR_USD"*/).then(data => {
+		// 	//console.log(data);
+		// 	this.setState({ data: data})
+		// });
+	}
+
 	render() {
-		if (this.state == null) {
+		console.log('Running render');
+
+		// getData(this.props.newsReducer.oandaInstrument/*"EUR_USD"*/).then(data => {
+		// 	console.log(data);
+		// 	if (this.state == null) {
+		// 		this.setState({ data: data})
+		// 	}
+		// 	//console.log(JSON.stringify(data));
+		// 	console.log(JSON.stringify(data)==JSON.stringify(this.state.data));
+		// 	//  else if (JSON.stringify(data) !== JSON.stringify(this.state.data)){
+		// 	//  	this.setState({ data: data})
+		// 	//  }
+		// }); 
+
+		console.log(this.state);
+		console.log(this.props);
+		if (this.props.fetchData == null) {
 			return <div>Loading...</div>
 		}
+
 		return (
 			// <TypeChooser>
 			// 	{(type: any) => 
-				<Chart type={"hybrid"} data={this.state.data} /> //		either "hybrid" or "svg"
+				<Chart type={"hybrid"} data={this.props.fetchData}/> //		either "hybrid" or "svg"
 			// 	}
 			// </TypeChooser>
 		)
@@ -30,13 +59,17 @@ class ChartComponent extends React.Component {
 }
 
 const mapStatetoProps = (state:any) => {
-    console.log(state)
-    return {...state
-    };
+	console.log(state.newsReducer.chartData);
+	if (state.newsReducer.chartData) {
+		return { fetchData: state.newsReducer.chartData.payload };
+	}
+	else {
+		return {...state};
+	}	
+ 	//return { fetchData: state.newsReducer.chartData.payload };
 };
 
 export default connect(mapStatetoProps, {})(ChartComponent);
-
 /*
 render(
 	<ChartComponent />,

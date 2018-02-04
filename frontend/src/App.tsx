@@ -44,7 +44,6 @@ class App extends React.Component<AppProps, AppState> {
     return (
       <Router>
         <div>
-
           <TopBar />
 
           <Switch>

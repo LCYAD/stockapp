@@ -12,7 +12,10 @@
     "@types/redux-thunk": "^2.1.0",
     "@types/uuid": "^3.4.3",
     "axios": "^0.17.1",
+    "cloudinary-react": "^1.0.6",
     "d3-dsv": "^1.0.8",
+    "material-ui": "^1.0.0-beta.31",
+    "material-ui-icons": "^1.0.0-beta.17",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
@@ -27,6 +30,7 @@
     "redux-thunk": "^2.2.0",
     "semantic-ui-css": "^2.2.14",
     "semantic-ui-react": "^0.77.2",
+    "tsv": "^0.2.0",
     "typescript": "^2.6.2",
     "uuid": "^3.1.0"
   },
