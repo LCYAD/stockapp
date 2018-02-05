@@ -4,16 +4,7 @@ import * as ReactDOM from 'react-dom';
 interface ResizableProps {
     height?: string;
     type: 'initial' | 'inherit' | 'unset' | 'row' | 'row-reverse' | 'column' | 'column-reverse' | undefined;
-    fullScreen?: boolean;
-    style: {
-        display: string;
-        flexDirection: 'initial' | 'inherit' | 'unset' | 'row' | 'row-reverse' |
-        'column' | 'column-reverse' | undefined;
-        overflow: 'initial' | 'inherit' | 'unset' | 'auto' | 'hidden' |
-        'scroll' | 'visible' | undefined;
-        minHeight: string;
-        maxHeight: string;
-    };
+    fullScreen: boolean;
 }
 
 interface ResizableState {
@@ -28,7 +19,7 @@ interface ResizableState {
 }
 
 export class Resizable extends React.Component<ResizableProps, ResizableState> {
-    constructor(props: any) {
+    constructor(props: ResizableProps) {
         super(props);
         this.state = {
             style: {
@@ -47,8 +38,8 @@ export class Resizable extends React.Component<ResizableProps, ResizableState> {
     componentDidMount() {
         var childs = ReactDOM.findDOMNode(this).childNodes;
         var e: any = childs[childs.length - 1];
-        if (e !== undefined) { 
-            e.style.flex = '1 1 auto'; 
+        if (e !== undefined) {
+            e.style.flex = '1 1 auto';
         }
         if (this.props.fullScreen) {
             this.updateComponentMaxHeight();
@@ -68,21 +59,29 @@ export class Resizable extends React.Component<ResizableProps, ResizableState> {
     }
 
     render() {
-        const childrenWithProps = React.Children.map(this.props.children,
-            (child: any) => React.cloneElement(child, {
-                type: this.props.type,
-            })
+        const childrenWithProps: any[] = [];
+        let index = 0;
+        React.Children.forEach(
+            this.props.children, (child: any) => {
+                // console.log('child: ', child);
+                childrenWithProps.push(React.cloneElement(child, {
+                    type: this.props.type,
+                    key: index
+                }));
+                index++;
+            }
         );
-
+        // console.log(childrenWithProps);
         return (
             <div style={this.state.style}>
                 {childrenWithProps}
             </div>
         );
     }
-};
+}
 
 interface RowsProps {
+    children: Element[];
     style: {
         display: string;
         flexDirection: 'initial' | 'inherit' | 'unset' | 'row' |
@@ -103,19 +102,20 @@ export class Rows extends React.Component<RowsProps, RowsState> {
 
     render() {
         return (
-            <Resizable type='row' style={this.props.style} >{this.props.children}</Resizable>
+            <Resizable
+                type="row"
+                fullScreen={true}
+            // style={this.props.style} 
+            >
+                {this.props.children}
+            </Resizable>
         );
     }
 }
 
 interface ColumnsProps {
-    style: {
-        display: string;
-        flexDirection: 'initial' | 'inherit' | 'unset' | 'row' | 'row-reverse' | 'column' | 'column-reverse' | undefined;
-        overflow: 'initial' | 'inherit' | 'unset' | 'auto' | 'hidden' | 'scroll' | 'visible' | undefined;
-        minHeight: string;
-        maxHeight: string;
-    };
+    children: JSX.Element[];
+    style?: any;
 }
 
 interface ColumnsState { }
@@ -127,7 +127,13 @@ export class Columns extends React.Component<ColumnsProps, ColumnsState> {
 
     render() {
         return (
-            <Resizable type='column' style={this.props.style} >{this.props.children}</Resizable>
+            <Resizable
+                type="column"
+                fullScreen={true}
+            // style={this.props.style} 
+            >
+                {this.props.children}
+            </Resizable>
         );
     }
 

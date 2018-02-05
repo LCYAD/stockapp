@@ -5,12 +5,31 @@ import { Sidebar, Segment } from 'semantic-ui-react';
 
 import { connect } from 'react-redux';
 
+import { Route, Switch } from 'react-router-dom';
+
+// import components
+import Terminal from '../terminal/terminal';
+import Community from '../community/community';
+import Fundamental from '../fundamental/fundamental';
+
 interface MidPanelProps {
   leftShow: boolean;
   rightShow: boolean;
+  history: any;
+  location: any;
+  match: {
+    isExact: boolean;
+    params: Object;
+    path: string;
+    url: string;
+    staticContext: any;
+  };
 }
 
-interface MidPanelState { }
+interface MidPanelState {
+  visible: boolean;
+  rightvisible: boolean;
+}
 
 class MidPanel extends React.Component<MidPanelProps, MidPanelState> {
 
@@ -51,10 +70,25 @@ class MidPanel extends React.Component<MidPanelProps, MidPanelState> {
             Right Sidebar
           </Sidebar>
           <Sidebar.Pusher>
-            <Segment
-            >
-             abc
-            </Segment>
+            <Switch>
+              <Route
+                exact={true}
+                path={`${this.props.match.path}/`}
+                component={Community}
+              />
+              <Route
+                path={`${this.props.match.path}/terminal`}
+                component={Terminal}
+              />
+              <Route
+                path={`${this.props.match.path}/fundamental`}
+                component={Fundamental}
+              />
+              <Route
+                path={`${this.props.match.path}/community`}
+                component={Community}
+              />
+            </Switch>
           </Sidebar.Pusher>
         </Sidebar.Pushable>
       </div>

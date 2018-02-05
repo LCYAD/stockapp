@@ -29,7 +29,7 @@ class TopBar extends React.Component<TopBarProps, TopBarState> {
   }
 
   render() {
-    console.log(this.props.isLoggedIn);
+    // console.log(this.props.isLoggedIn);
 
     const logoutBtn = () => {
       if (this.props.isLoggedIn) {
@@ -39,7 +39,7 @@ class TopBar extends React.Component<TopBarProps, TopBarState> {
               animated={true}
               inverted={true}
               onClick={this.logOut}
-              size="tiny"
+              size="mini"
               floated="right"
             >
               <Button.Content

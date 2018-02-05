@@ -3,6 +3,8 @@ import './left-panel.css';
 
 import { Button, Icon, Divider } from 'semantic-ui-react';
 
+import { NavLink } from 'react-router-dom';
+
 import { connect } from 'react-redux';
 
 // import actions
@@ -61,7 +63,12 @@ class LeftPanel extends React.Component<LeftPanelProps, LeftPanelState> {
         return (
             <div id="panel-grid">
                 <div>
+                    <NavLink
+                        to="/main/terminal"
+                        style={{ textDecoration: 'none' }}
+                    >
                     <div className="left-link-btn">
+                        
                         <Button
                             animated={true}
                             inverted={true}
@@ -83,6 +90,11 @@ class LeftPanel extends React.Component<LeftPanelProps, LeftPanelState> {
                             </Button.Content>
                         </Button>
                     </div>
+                    </NavLink>
+                    <NavLink
+                        to="/main/fundamental"
+                        style={{ textDecoration: 'none' }}
+                    >
                     <div className="left-link-btn">
                         <Button
                             animated={true}
@@ -105,6 +117,11 @@ class LeftPanel extends React.Component<LeftPanelProps, LeftPanelState> {
                             </Button.Content>
                         </Button>
                     </div>
+                    </NavLink>
+                    <NavLink
+                        to="/main/community"
+                        style={{ textDecoration: 'none' }}
+                    >
                     <div className="left-link-btn">
                         <Button
                             animated={true}
@@ -127,6 +144,7 @@ class LeftPanel extends React.Component<LeftPanelProps, LeftPanelState> {
                             </Button.Content>
                         </Button>
                     </div>
+                    </NavLink>
                 </div>
                 <div>
                     <Divider 

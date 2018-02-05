@@ -52,7 +52,7 @@ class App extends React.Component<AppProps, AppState> {
               path="/"
               render={() => (
                 isLoggedInNow
-                  ? <MainPart />
+                  ? <Redirect to="/main" />
                   : <Redirect to="/login/login" />
               )}
             />

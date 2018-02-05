@@ -1,0 +1,7 @@
+#option-container {
+    display: grid;
+    text-align: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
