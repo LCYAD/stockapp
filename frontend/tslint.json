@@ -1,7 +1,7 @@
 {
-    "extends": ["tslint-react"],
+    "extends": [/*"tslint-react"*/],
     "rules": {
-        "align": [
+        /*"align": [
             true,
             "parameters",
             "arguments",
@@ -94,6 +94,6 @@
             "check-separator",
             "check-type",
             "check-typecast"
-        ]
+        ]*/
     }
 }

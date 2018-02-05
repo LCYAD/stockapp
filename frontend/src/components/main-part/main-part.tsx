@@ -1,6 +1,8 @@
 import * as React from 'react';
 import './main-part.css';
 
+import { connect } from 'react-redux';
+
 // import component
 import LeftPanel from './left-panel/left-panel';
 import MidPanel from './mid-panel/mid-panel';
@@ -15,6 +17,16 @@ interface MainPartProps {
     url: string;
     staticContext: any;
   };
+}
+
+// import List from '../news/list';
+// import ChartComponent from '../chart/index';
+// import Newslist from '../news/newsList';
+
+import { ActionFetchNews } from '../../actions/newsAction';
+
+interface MainPartProps { 
+  fetchNews: any;
 }
 
 interface MainPartState { }
@@ -39,4 +51,17 @@ class MainPart extends React.Component<MainPartProps, MainPartState> {
   }
 } // End MainPart Class
 
-export default MainPart;
+const mapStatetoProps = (state: any) => {
+  return {
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) =>{
+  return {
+    fetchNews: (key: string) => {
+      dispatch(ActionFetchNews(key));
+    }
+  };
+}
+
+export default connect(mapStatetoProps, mapDispatchToProps)(MainPart);

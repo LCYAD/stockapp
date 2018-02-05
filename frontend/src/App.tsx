@@ -18,6 +18,7 @@ class App extends React.Component<AppProps, AppState> {
 
   render() {
     let isLoggedInNow = this.props.isLoggedIn;
+    // console.log(this.props.token);
     const PrivateRoute = ({ component: Component, ...rest }: any) => (
       <Route
         {...rest}
@@ -50,7 +51,7 @@ class App extends React.Component<AppProps, AppState> {
             <Route
               exact={true}
               path="/"
-              render={() => (
+              render={(props) => (
                 isLoggedInNow
                   ? <Redirect to="/main" />
                   : <Redirect to="/login/login" />
