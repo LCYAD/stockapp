@@ -10,10 +10,12 @@ import SocialButton from '../../../components/social-login-btn/social-login-btn'
 import { Redirect } from 'react-router-dom';
 
 // import action
-import { addToken } from '../../../actions/userAction';
+import { addToken, addEmail, addName } from '../../../actions/userAction';
 
 interface LoginFormProps {
   addToken: Function;
+  addEmail: Function;
+  addName: Function;
 }
 
 interface LoginFormState {
@@ -64,9 +66,11 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
     axios.post('http://localhost:8080/api/login/facebook', {
       access_token: user._token.accessToken
     }).then((res) => {
-      console.log(res.data.token);
+      console.log(res.data);
       // add the token onto the store
       this.props.addToken(res.data.token);
+      this.props.addEmail(res.data.email);
+      this.props.addName(res.data.username);
       this.setState({ fireRedirect: true });
     }).catch((err) => {
       console.log(err);
@@ -89,6 +93,8 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
         // console.log(res.data.token);
         // add the token onto the store
         this.props.addToken(res.data.token);
+        this.props.addEmail(res.data.email);
+        this.props.addName(res.data.username);
         this.setState({ fireRedirect: true });
       }).catch((err) => {
         console.log(err);
@@ -216,13 +222,19 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
 } // End LoginForm Class
 
 const mapStatetoProps = (state: any) => {
-  return {};
+  return {...state};
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     addToken: (token: string) => {
       dispatch(addToken(token));
+    },
+    addEmail: (email: string) => {
+      dispatch(addEmail(email));
+    },
+    addName: (name: string) => {
+      dispatch(addName(name));
     }
   };
 };

@@ -21,6 +21,7 @@ const knex = require('knex')({
 
 //routes instance
 var LoginRoutes = require ('./routes/login-routes');
+var MainRoutes = require ('./routes/main-routes');
 
 //service file
 const UserService = require('./services/user-service');
@@ -48,8 +49,18 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors());
 
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', "*");
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+}
+
+app.use(allowCrossDomain);  
+
 //Routing
 app.use('/api/login', new LoginRoutes(userService).router());
+app.use('/api/post', new MainRoutes(userService).router());
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -69,20 +80,21 @@ app.use(function(err, req, res, next) {
     res.render('error');
 });
 
-app.listen(8080);
+//app.use(express.static('/frontend/build'))
+ let router = express.Router();
+// router.get('/', function(req, res) {
+//     res.render('/frontend/build');
+//   });
 
-// axios.post(
-//     "/post", {
-//         params : {
-//             arg01: "nothing"
-//         }
-//     }
-// )
-// .then (
-//     result => console.log(result)
-// )
-// .catch (
-//     error => console.log(error)
-// );
+
+// app.post('/api/post', function(req, res){
+//     console.log(req);
+//     res.json({res:'Users created'});
+//   //  res.send('User created');
+//     console.log("saved");
+// });
+
+
+app.listen(8080);
 
 module.exports = app;

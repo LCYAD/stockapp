@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 
 import { ActionFetchNews, ActionSelectInstrument, ActionFetchChartData } from '../../actions/newsAction';
 import AddPostComponent from '../social-network/add-post/addPostComponent';
+import ViewPostComponent from '../social-network/viewpost/viewPostComponent';
 
 export const instruMatch = {"ERO":"EUR_USD", "JYN":"USD_JPY", "GBB":"GBP_USD"};
 
@@ -52,6 +53,7 @@ class MainPart extends React.Component<MainPartProps, MainPartState> {
         <div id="main-part">
             This is the main part.
             <AddPostComponent/>
+            <ViewPostComponent/>
             <List fetchNews={this.handleFetchNews} fetchDropdown={this.handleFetchDropdown}/>
             <ChartComponent /*fetchData={}*//*fetchData={() => return this;}*//>
             <Newslist/>

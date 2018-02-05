@@ -9,10 +9,12 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 // import action
-import { addToken } from '../../../actions/userAction';
+import { addToken, addEmail, addName } from '../../../actions/userAction';
 
 interface SignFormProps {
   addToken: Function;
+  addEmail: Function;
+  addName: Function;
 }
 
 interface SignFormState {
@@ -72,9 +74,11 @@ class SignForm extends React.Component<SignFormProps, SignFormState> {
         email: this.state.emailvalue,
         password: this.state.passwordvalue
       }).then((res) => {
-        console.log(res.data.token);
+        console.log(res.data);
         // add the token onto the store
         this.props.addToken(res.data.token);
+        this.props.addEmail(res.data.email);
+        this.props.addName(res.data.username);
         this.setState({ fireRedirect: true });
       }).catch((err) => {
         console.log(err);
@@ -225,13 +229,19 @@ class SignForm extends React.Component<SignFormProps, SignFormState> {
 } // End SignForm Class
 
 const mapStatetoProps = (state: any) => {
-  return {};
+  return {...state};
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
     addToken: (token: string) => {
       dispatch(addToken(token));
+    },
+    addEmail: (email: string) => {
+      dispatch(addEmail(email));
+    },
+    addName: (name: string) => {
+      dispatch(addName(name));
     }
   };
 };

@@ -1,6 +1,7 @@
 import * as React from 'react'; 
 import { Button, Modal } from 'semantic-ui-react';
 import axios from 'axios';
+import { connect } from 'react-redux'; 
 //import Post from '../post.model'
 
 var iconStyle = {
@@ -25,7 +26,7 @@ var buttonStyle = {
     marginBottom : '20px'
 }
 
-export default class AddPostComponent extends React.Component<any,any> {
+class AddPostComponent extends React.Component<any,any> {
   
     state = { size: '', open: false, msg: [], file: [], imagePreviewUrl: [], imageURL: []}
 
@@ -72,13 +73,48 @@ export default class AddPostComponent extends React.Component<any,any> {
                     console.log(fileURL);
                     this.setState({ 
                         imageURL: [...this.state.imageURL, fileURL],
-                        open: false
+                        // open: false
                     }, () => {
+                        var postData = {
+                            name : this.props.user.username,
+                            email : this.props.user.email,
+                            msg: this.state.msg,
+                            img : this.state.imageURL
+                        };
+                        console.log(this.props);
+                        console.log(postData);
+                        axios.post("http://localhost:8080/api/post", postData
+                        // , {
+                        //     headers: { 'Access-Control-Allow-Origin': '*', "X-Requested-With": "XMLHttpRequest", 'Accept': 'application/json',
+                        //     'Content-Type': 'application/json' },
+                        //     }
+                        ).then((response:any) => { 
+                            console.log(response);
+                            this.setState({ open: false })
+                        })    
+                         .catch((error)=> console.log(error));     
                         console.log(this.state);
                     });
                 });
             } else {
-                this.setState({ open:false });
+                var postData = {
+                    name : this.props.user.username,
+                    email : this.props.user.email,
+                    msg: this.state.msg,
+                    img : []
+                };
+                console.log(postData);
+                axios.post("http://localhost:8080/api/post", postData
+                        // , {
+                        //     headers: { 'Access-Control-Allow-Origin': '*', "X-Requested-With": "XMLHttpRequest", 'Accept': 'application/json',
+                        //     'Content-Type': 'application/json' },
+                        //     }
+                    ).then((response:any) => { 
+                        console.log(response);
+                        this.setState({ open: false })
+                    }) 
+                    .catch((error)=> console.log(error));     
+                    console.log(this.state);
             }    
         });
         //this.setState({ open: false });
@@ -146,3 +182,18 @@ export default class AddPostComponent extends React.Component<any,any> {
         );
     }
 }
+
+const mapStatetoProps = (state: any) => {
+    console.log(state)
+    return {
+      ...state
+    };
+};
+
+/*
+const ConnectedNewsList = connect((state: RootState) => ({
+    newslist: state.newslist,
+  }))(NewsList);
+*/
+
+export default connect(mapStatetoProps, {})(AddPostComponent);
