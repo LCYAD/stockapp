@@ -21,6 +21,8 @@ const knex = require('knex')({
 //routes instance
 var LoginRoutes = require ('./routes/login-routes');
 var UserRoutes = require ('./routes/user-routes');
+var PostRoutes = require ('./routes/post-routes');
+var GetpostRoutes = require ('./routes/getpost-routes');
 
 //service file
 const UserService = require('./services/user-service');
@@ -41,9 +43,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors());
 
+var allowCrossDomain = function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', "*");
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+}
+
+app.use(allowCrossDomain);  
+
 //Routing
 app.use('/api/login', new LoginRoutes(userService).router());
 app.use('/api/user', new UserRoutes(userService).router());
+app.use('/api/post', new PostRoutes(userService).router());
+app.use('/api/getpost', new GetpostRoutes(userService).router());
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

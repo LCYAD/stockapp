@@ -1,4 +1,5 @@
 import NewsType from '../newstype.model';
+import { instruMatch } from '../components/main-part/community/community';
 
 interface ReducerAction {
     instrument: string;
@@ -13,7 +14,7 @@ interface ReducerState {
 
 export const initialState = {
     newslist: [
-        {title: "Google", url:"https://www.google.com", description: "exmaple"}
+        // {title: "Google", url:"https://www.google.com", description: "exmaple"}
     ]
    // newsSearch: ""
 }
@@ -34,6 +35,30 @@ export default function newsReducer (state: ReducerState = initialState, action:
             }
            // var fetched = [{title: action.payload.data[0].headline, url: action.payload.data[0].url, description: action.payload.data[0].summary}];
             return {newslist: [...fetched]};
+        
+            case "GET_INSTRU":
+            console.log(action);
+            return {...state, currentInstrument: action.payload, oandaInstrument: instruMatch[action.payload]};
+        
+        case "GET_CHART_PENDING":
+            return state;
+
+        case "GET_CHART_REJECTED":
+            return state;
+
+        case "GET_CHART_FULFILLED":
+            console.log(action);
+            return {...state, chartData: action};
+
+        case "GET_POST_PENDING":
+            return state;
+
+        case "GET_POST_REJECTED":
+            return state;
+
+        case "GET_POST_FULFILLED":
+             console.log(action);
+            return {...state, post: action};    
     }
     return state;
 }
