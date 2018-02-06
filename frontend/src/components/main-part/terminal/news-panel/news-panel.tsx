@@ -1,6 +1,8 @@
 import * as React from 'react';
 import './news-panel.css';
 
+import PanelMenuBar from '../panel-menu-bar/panel-menu-bar';
+
 interface NewsPanelProps { 
     panel: string;
 }
@@ -16,7 +18,7 @@ class NewsPanel extends React.Component<NewsPanelProps, NewsPanelState> {
   render() {
     return (
       <div>
-        This is the News panel
+        <PanelMenuBar panel={this.props.panel}/>
       </div>
     );
   }

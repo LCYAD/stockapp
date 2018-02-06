@@ -1,6 +1,8 @@
 import * as React from 'react';
 import './chart-panel.css';
 
+import PanelMenuBar from '../panel-menu-bar/panel-menu-bar';
+
 interface ChartPanelProps { 
     panel: string;
 }
@@ -16,7 +18,7 @@ class ChartPanel extends React.Component<ChartPanelProps, ChartPanelState> {
   render() {
     return (
       <div>
-        This is the Chart panel
+        <PanelMenuBar panel={this.props.panel}/>
       </div>
     );
   }

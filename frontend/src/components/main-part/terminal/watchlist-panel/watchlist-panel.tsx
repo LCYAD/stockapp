@@ -1,6 +1,8 @@
 import * as React from 'react';
 import './watchlist-panel.css';
 
+import PanelMenuBar from '../panel-menu-bar/panel-menu-bar';
+
 interface WatchListPanelProps { 
     panel: string;
 }
@@ -16,7 +18,7 @@ class WatchListPanel extends React.Component<WatchListPanelProps, WatchListPanel
   render() {
     return (
       <div>
-        This is the watch list panel
+        <PanelMenuBar panel={this.props.panel}/>
       </div>
     );
   }
