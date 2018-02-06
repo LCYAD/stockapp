@@ -26,18 +26,18 @@ class MainRoutes {
     }
 
     local(req,res){
-        console.log(req);
+        //console.log(req);
         console.log("OKOK");
         this.userService.getUser('local', req.body.email)
         .then(()=>{
-            console.log(req.body.email);
-
+            //console.log(req.body.email);
+            console.log(req.body)
             knex.insert(req.body).into("post").then(function (id) {
                 console.log(id);
                 res.json({res:'Post is Sent.'});
             })
             .finally(function() {
-                knex.destroy();
+            //    knex.destroy();
             });
 
             //res.json({res:'Post is Sent.'});

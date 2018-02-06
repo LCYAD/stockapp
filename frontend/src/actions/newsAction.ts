@@ -22,3 +22,10 @@ export function ActionFetchChartData(key: string) {
         payload: getData(instruMatch[key]/*"EUR_USD"*/),
     };
 }
+
+export function ActionFetchPost(key: any) {
+    return {
+        type: "GET_POST",
+        payload: axios.post("http://localhost:8080/api/getpost", key)
+    };
+}

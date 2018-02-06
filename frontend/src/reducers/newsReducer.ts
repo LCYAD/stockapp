@@ -48,6 +48,16 @@ export default function newsReducer (state: ReducerState = initialState, action:
         case "GET_CHART_FULFILLED":
             console.log(action);
             return {...state, chartData: action};
+
+        case "GET_POST_PENDING":
+            return state;
+
+        case "GET_POST_REJECTED":
+            return state;
+
+        case "GET_POST_FULFILLED":
+             console.log(action);
+            return {...state, post: action};
     }
     return state;
 }

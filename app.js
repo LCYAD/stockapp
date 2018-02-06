@@ -21,7 +21,8 @@ const knex = require('knex')({
 
 //routes instance
 var LoginRoutes = require ('./routes/login-routes');
-var MainRoutes = require ('./routes/main-routes');
+var PostRoutes = require ('./routes/post-routes');
+var GetpostRoutes = require ('./routes/getpost-routes');
 
 //service file
 const UserService = require('./services/user-service');
@@ -60,7 +61,8 @@ app.use(allowCrossDomain);
 
 //Routing
 app.use('/api/login', new LoginRoutes(userService).router());
-app.use('/api/post', new MainRoutes(userService).router());
+app.use('/api/post', new PostRoutes(userService).router());
+app.use('/api/getpost', new GetpostRoutes(userService).router());
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

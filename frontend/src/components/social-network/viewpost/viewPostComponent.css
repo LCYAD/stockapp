@@ -50,12 +50,12 @@ html {
   }
   
   /*- Flipping the card -*/   /*.card-container:hover*/
-  .fa:hover .card-body {
+  /* .card-container:hover .card-body{
     transform: rotateY(180deg);
-  }
-  
+  }  */
+
   /*.card-container:hover*/
-  .fa:hover > .card-body > .side-front {
+  .fa:active > .card-body > .side-front {
     opacity: 0;
     visibility: hidden;
     transition: opacity 1s ease-in, visibility .75s linear;
@@ -81,7 +81,8 @@ html {
   
   .side-front-content {
     max-height: 50%;
-    padding-top: 32px;
+    padding-top: 15px;
+    padding-left: 15px;
     padding-right: 32px;
     padding-bottom: 32px;
   }

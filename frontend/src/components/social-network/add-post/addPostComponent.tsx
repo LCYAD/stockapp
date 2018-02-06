@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Button, Modal } from 'semantic-ui-react';
 import axios from 'axios';
 import { connect } from 'react-redux'; 
+import { ActionFetchPost } from '../../../actions/newsAction';
 //import Post from '../post.model'
 
 var iconStyle = {
@@ -26,7 +27,12 @@ var buttonStyle = {
     marginBottom : '20px'
 }
 
-class AddPostComponent extends React.Component<any,any> {
+interface AddPostProps { 
+    user: any;
+    fetchPost: any;
+  }
+
+class AddPostComponent extends React.Component<AddPostProps, any> {
   
     state = { size: '', open: false, msg: [], file: [], imagePreviewUrl: [], imageURL: []}
 
@@ -55,6 +61,8 @@ class AddPostComponent extends React.Component<any,any> {
             console.log('handle uploading-', this.state.file);
             console.log('handle uploading-msg', this.state.msg);
 
+            let promises = [];
+
             if (this.state.file.length > 0) {
                 const formData = new FormData();
                 for (var i=0; i< this.state.file.length; i++) {
@@ -63,43 +71,92 @@ class AddPostComponent extends React.Component<any,any> {
                     formData.append("upload_preset", "idzxgzjw"); // Replace the preset name with your own
                     formData.append("api_key", "573954122199244"); // Replace API key with your own Cloudinary key
                     formData.append("timestamp", Date.now().toString());
+                    promises.push(axios.post("https://api.cloudinary.com/v1_1/codeinfuse/image/upload", formData, {
+                        headers: { "X-Requested-With": "XMLHttpRequest" },
+                        }));
                 }
-                axios.post("https://api.cloudinary.com/v1_1/codeinfuse/image/upload", formData, {
-                    headers: { "X-Requested-With": "XMLHttpRequest" },
-                    }).then((response:any) => {
-                    const data = response.data;
-                    const fileURL = data.secure_url; // You should store this URL for future references in your app
-                    console.log(data);
-                    console.log(fileURL);
-                    this.setState({ 
-                        imageURL: [...this.state.imageURL, fileURL],
-                        // open: false
-                    }, () => {
-                        var postData = {
-                            name : this.props.user.username,
-                            email : this.props.user.email,
-                            msg: this.state.msg,
-                            img : this.state.imageURL
-                        };
-                        console.log(this.props);
-                        console.log(postData);
-                        axios.post("http://localhost:8080/api/post", postData
-                        // , {
-                        //     headers: { 'Access-Control-Allow-Origin': '*', "X-Requested-With": "XMLHttpRequest", 'Accept': 'application/json',
-                        //     'Content-Type': 'application/json' },
-                        //     }
-                        ).then((response:any) => { 
-                            console.log(response);
-                            this.setState({ open: false })
-                        })    
-                         .catch((error)=> console.log(error));     
-                        console.log(this.state);
-                    });
-                });
+
+                axios.all(promises)
+                    .then(axios.spread((...args) => {
+                        //console.log(args);
+                        var data: any[] = [];
+                        var fileURL: any[] = [];
+                        for (let i = 0; i < args.length; i++) {
+                            //data.push(args[i].data);
+                            fileURL.push(args[i].data.secure_url); // You should store this URL for future references in your app
+                            console.log(data);
+                            console.log(fileURL);
+                            //myObject[args[i].config.params.saveLocation] = args[i].data;
+                        }
+                        this.setState({ 
+                            imageURL: [...this.state.imageURL, fileURL],
+                            // open: false
+                        }, () => {
+                            var postData = {
+                                name : this.props.user.username,
+                                email : this.props.user.email,
+                                date: Date.now(),
+                                msg: this.state.msg,
+                                img : this.state.imageURL[0]
+                            };
+                            console.log(this.props);
+                            console.log(postData);
+                            axios.post("http://localhost:8080/api/post", postData
+                            // , {
+                            //     headers: { 'Access-Control-Allow-Origin': '*', "X-Requested-With": "XMLHttpRequest", 'Accept': 'application/json',
+                            //     'Content-Type': 'application/json' },
+                            //     }
+                            ).then((response:any) => { 
+                                console.log(response);
+                                this.props.fetchPost(this.props.user);
+                                this.setState({ open: false })
+                            })    
+                            .catch((error)=> console.log(error));     
+                            console.log(this.state);
+                        });
+                    }));
+                    //.then(/* use the data */);
+
+
+                // axios.post("https://api.cloudinary.com/v1_1/codeinfuse/image/upload", formData, {
+                //     headers: { "X-Requested-With": "XMLHttpRequest" },
+                //     }).then((response:any) => {
+                //     const data = response.data;
+                //     const fileURL = data.secure_url; // You should store this URL for future references in your app
+                //     console.log(data);
+                //     console.log(fileURL);
+                //     this.setState({ 
+                //         imageURL: [...this.state.imageURL, fileURL],
+                //         // open: false
+                //     }, () => {
+                //         var postData = {
+                //             name : this.props.user.username,
+                //             email : this.props.user.email,
+                //             date: Date.now(),
+                //             msg: this.state.msg,
+                //             img : this.state.imageURL
+                //         };
+                //         console.log(this.props);
+                //         console.log(postData);
+                //         axios.post("http://localhost:8080/api/post", postData
+                //         // , {
+                //         //     headers: { 'Access-Control-Allow-Origin': '*', "X-Requested-With": "XMLHttpRequest", 'Accept': 'application/json',
+                //         //     'Content-Type': 'application/json' },
+                //         //     }
+                //         ).then((response:any) => { 
+                //             console.log(response);
+                //             this.setState({ open: false })
+                //         })    
+                //          .catch((error)=> console.log(error));     
+                //         console.log(this.state);
+                //     });
+                // });
+
             } else {
                 var postData = {
                     name : this.props.user.username,
                     email : this.props.user.email,
+                    date: Date.now(),
                     msg: this.state.msg,
                     img : []
                 };
@@ -187,13 +244,22 @@ const mapStatetoProps = (state: any) => {
     console.log(state)
     return {
       ...state
+     // post: state.newsReducer.post
     };
 };
 
+const mapDispatchToProps = (dispatch: any) =>{
+    return {
+      fetchPost: (key: string) => {
+        console.log('run fetch post')
+        dispatch(ActionFetchPost(key));
+      }
+    };
+  }
 /*
 const ConnectedNewsList = connect((state: RootState) => ({
     newslist: state.newslist,
   }))(NewsList);
 */
 
-export default connect(mapStatetoProps, {})(AddPostComponent);
+export default connect(mapStatetoProps, mapDispatchToProps)(AddPostComponent);
