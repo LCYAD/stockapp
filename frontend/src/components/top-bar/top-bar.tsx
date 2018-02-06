@@ -65,7 +65,7 @@ class TopBar extends React.Component<TopBarProps, TopBarState> {
     return (
       <div id="top-part">
         <div id="nav-title">
-          Trader <sup>Den</sup>
+          Trader's <sup>Den</sup>
         </div>
         <div/>
         <Notification/>

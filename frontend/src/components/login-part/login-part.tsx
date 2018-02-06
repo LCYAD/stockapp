@@ -17,39 +17,41 @@ class LoginPart extends React.Component<LoginPartProps, LoginPartState> {
 
   render() {
     return (
-      <div id="login-part">
-        <div id="form-container">
-          <div id="form-switch">
-            <div className="link-switch">
-              <NavLink
-                to="/login/login"
-                style={{ textDecoration: 'none', color: 'grey' }}
-              >
-                Login
-              </NavLink>
+      <div id="login-box">
+        <div id="login-part">
+          <div id="form-container">
+            <div id="form-switch">
+              <div className="link-switch">
+                <NavLink
+                  to="/login/login"
+                  style={{ textDecoration: 'none', color: 'grey' }}
+                >
+                  Login
+                </NavLink>
+              </div>
+              <div className="link-switch">
+                <NavLink
+                  to="/login/signup"
+                  style={{ textDecoration: 'none', color: 'grey' }}
+                >
+                  Sign Up
+                </NavLink>
+              </div>
             </div>
-            <div className="link-switch">
-              <NavLink
-                to="/login/signup"
-                style={{ textDecoration: 'none', color: 'grey' }}
-              >
-                Sign Up
-              </NavLink>
-            </div>
+            <Divider 
+              section={true}
+            />
+            <Switch>
+              <Route
+                path={`${this.props.match.path}/login`}
+                component={LoginForm}
+              />
+              <Route
+                path={`${this.props.match.path}/signup`}
+                component={SignupForm}
+              />
+            </Switch>
           </div>
-          <Divider 
-            section={true}
-          />
-          <Switch>
-            <Route
-              path={`${this.props.match.path}/login`}
-              component={LoginForm}
-            />
-            <Route
-              path={`${this.props.match.path}/signup`}
-              component={SignupForm}
-            />
-          </Switch>
         </div>
       </div>
     );

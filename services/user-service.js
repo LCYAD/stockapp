@@ -22,8 +22,25 @@ class UserService {
             id: this.uuid(),
             email: email,
             password: password,
-            type: type
+            type: type,
+            panel_setting: JSON.stringify({
+                1: 'none',
+                2: 'none',
+                3: 'none'
+            })
         }).into('users').returning('id');
+    }
+
+    getPanelSetting(userID) {
+        return this.knex.select('panel_setting').from('users').where({
+            id: userID
+        }).limit(1);
+    }
+
+    updatePanelSetting(userID, new_panel_setting) {
+        return this.knex('users').where({
+            id: userID
+        }).limit(1).update('panel_setting', JSON.stringify(new_panel_setting), ['panel_setting']);
     }
 }
 

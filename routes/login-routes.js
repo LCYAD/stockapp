@@ -22,8 +22,9 @@ class LoginRoutes {
             if (user.length) {
                 //check password
                 if (user[0].password === req.body.password){
+                    console.log(user[0].id);
                     var payload = {
-                        id: user.id
+                        id: user[0].id
                     };
                     var token = jwt.encode(payload, config.jwtSecret);
                     res.json({
@@ -49,10 +50,10 @@ class LoginRoutes {
                 //console.log(data.data);
                 if(!data.data.error){
                     this.userService.getUser('facebook', data.data.email).then((user)=>{
-                        console.log(user);
+                        // console.log(user);
                         if (user.length){
                             var payload = {
-                                id: user.id
+                                id: user[0].id
                             };
                             var token = jwt.encode(payload, config.jwtSecret);
                             res.json({
@@ -61,6 +62,7 @@ class LoginRoutes {
                         } else {
                             //create a new user
                             this.userService.createUser('facebook', data.data.email).then(id=>{
+                                console.log(id)
                                 var payload = {
                                     id: id[0]
                                 };

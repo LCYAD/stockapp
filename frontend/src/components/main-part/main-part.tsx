@@ -23,10 +23,11 @@ interface MainPartProps {
 // import ChartComponent from '../chart/index';
 // import Newslist from '../news/newsList';
 
-import { ActionFetchNews } from '../../actions/newsAction';
+// import { ActionFetchNews } from '../../actions/newsAction';
+import { getUserSetting } from '../../actions/userAction';
 
 interface MainPartProps { 
-  fetchNews: any;
+  getUserSetting: Function;
 }
 
 interface MainPartState { }
@@ -35,6 +36,10 @@ class MainPart extends React.Component<MainPartProps, MainPartState> {
 
   constructor(props: MainPartProps) {
     super(props);
+  }
+
+  componentWillMount() {
+    this.props.getUserSetting();
   }
 
   render() {
@@ -51,15 +56,16 @@ class MainPart extends React.Component<MainPartProps, MainPartState> {
   }
 } // End MainPart Class
 
-const mapStatetoProps = (state: any) => {
+const mapStatetoProps = (state: any, props: any) => {
   return {
+    ...props
   };
 };
 
 const mapDispatchToProps = (dispatch: any) =>{
   return {
-    fetchNews: (key: string) => {
-      dispatch(ActionFetchNews(key));
+    getUserSetting: () => {
+      dispatch(getUserSetting());
     }
   };
 }

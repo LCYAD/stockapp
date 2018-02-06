@@ -20,6 +20,7 @@ const knex = require('knex')({
 
 //routes instance
 var LoginRoutes = require ('./routes/login-routes');
+var UserRoutes = require ('./routes/user-routes');
 
 //service file
 const UserService = require('./services/user-service');
@@ -42,6 +43,7 @@ app.use(cors());
 
 //Routing
 app.use('/api/login', new LoginRoutes(userService).router());
+app.use('/api/user', new UserRoutes(userService).router());
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

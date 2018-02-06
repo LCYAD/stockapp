@@ -18,15 +18,15 @@ class Terminal extends React.Component<TerminalProps, TerminalState> {
             <div id="terminal-container">
                 <SplitPane
                     split="vertical"
-                    minSize={500}
-                    maxSize={900}
-                    defaultSize={700}
+                    minSize={400}
+                    maxSize={800}
+                    defaultSize={600}
                 >
                     <SplitPane
                         split="horizontal"
-                        minSize={350}
-                        maxSize={550}
-                        defaultSize={450}
+                        minSize={200}
+                        maxSize={400}
+                        defaultSize={300}
                     >
                         <LoadUtil panel="1" />
                         <LoadUtil panel="2" />

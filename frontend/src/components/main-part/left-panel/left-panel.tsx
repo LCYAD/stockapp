@@ -73,7 +73,7 @@ class LeftPanel extends React.Component<LeftPanelProps, LeftPanelState> {
                             animated={true}
                             inverted={true}
                             onClick={this.movetoTerminal}
-                            size="huge"
+                            size="large"
                         >
                             <Button.Content
                                 visible={true}
@@ -100,7 +100,7 @@ class LeftPanel extends React.Component<LeftPanelProps, LeftPanelState> {
                             animated={true}
                             inverted={true}
                             onClick={this.movetoFundamental}
-                            size="huge"
+                            size="large"
                         >
                             <Button.Content
                                 visible={true}
@@ -127,7 +127,7 @@ class LeftPanel extends React.Component<LeftPanelProps, LeftPanelState> {
                             animated={true}
                             inverted={true}
                             onClick={this.movetoCommunity}
-                            size="huge"
+                            size="large"
                         >
                             <Button.Content
                                 visible={true}
@@ -155,7 +155,7 @@ class LeftPanel extends React.Component<LeftPanelProps, LeftPanelState> {
                             animated={true}
                             inverted={true}
                             onClick={this.toggleLeftPanel}
-                            size="huge"
+                            size="large"
                         >
                             <Button.Content
                                 visible={true}
@@ -174,7 +174,7 @@ class LeftPanel extends React.Component<LeftPanelProps, LeftPanelState> {
                     </div>
                 </div>
 
-                <div>
+                <div id="left-message-panel">
                     <Divider 
                         inverted={true} 
                     />
@@ -183,7 +183,7 @@ class LeftPanel extends React.Component<LeftPanelProps, LeftPanelState> {
                             animated={true}
                             inverted={true}
                             onClick={this.toggleRightPanel}
-                            size="huge"
+                            size="large"
                         >
                             <Button.Content
                                 visible={true}

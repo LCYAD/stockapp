@@ -58,7 +58,7 @@ class LoadUtil extends React.Component<LoadUtilProps, LoadUtilState> {
 const mapStateToProps = (state: any, props: any) => {
     return {
         ...props,
-        panelStatus: state.TpanelSetting.panelStatus
+        panelStatus: state.user.panelStatus
     };
 };
 

@@ -1,16 +1,21 @@
 @import url('https://fonts.googleapis.com/css?family=Arimo');
 
-#login-part {
-    margin-left: 35%;
-    margin-right: 35%;
-    margin-top: 30px;
+#login-box {
+    padding-left: 35%;
+    padding-right: 35%;
+    padding-top: 30px;
+    background: url('./background.jpg');
+    background-size:     cover;
+    background-repeat:   no-repeat;
+    background-position: center center;  
+    height: 95vh;
 }
 
 #form-container {
     border: solid 1px grey;
     border-radius: 10px;
     padding: 30px;
-    background: rgba(196, 196, 196, 0.212);
+    background: rgba(216, 216, 216, 0.99);
 }
 
 #form-switch {
@@ -24,4 +29,18 @@
     font-size: 30px;
     font-weight: 700;
     font-family: 'Arimo', sans-serif;
+}
+
+@media screen and (max-width: 1000px) {
+    #login-box {
+        padding-left: 25%;
+        padding-right: 25%;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    #login-box {
+        padding-left: 10%;
+        padding-right: 10%;
+    }
 }

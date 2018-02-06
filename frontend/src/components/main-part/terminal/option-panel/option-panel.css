@@ -1,7 +1,33 @@
-#option-container {
-    display: grid;
-    text-align: center;
+.option-container {
+    display: flex;
+    justify-content: center;
     align-items: center;
     height: 100%;
     width: 100%;
+}
+
+.option-box {
+    display: flex;
+    flex-wrap: wrap;
+    width: 60%;
+    height: 40%;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid grey;
+    border-radius: 5px;
+    box-shadow: 4px 4px #8888888c;
+}
+
+.option-btn-box {
+    width: 100%;
+    text-align: center;
+    overflow-x: auto;
+}
+
+.option-btn-title {
+    margin-right: 20px;
+}
+
+.option-btn-icon-name {
+    font-size: 12px;
 }
