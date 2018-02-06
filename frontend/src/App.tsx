@@ -60,6 +60,7 @@ class App extends React.Component<AppProps, AppState> {
             <PrivateRoute
               path="/main"
               component={MainPart}
+              {...this.props}
             />
             <LoginRoute
               path="/login"

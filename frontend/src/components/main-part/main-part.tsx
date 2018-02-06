@@ -43,6 +43,7 @@ class MainPart extends React.Component<MainPartProps, MainPartState> {
   }
 
   render() {
+    console.log(this.props)
     return (
       <div id="main-part">
         <div id="left-panel">

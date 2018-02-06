@@ -19,6 +19,8 @@ const getInitState = () => {
     return ({
         token: token,
         isLoggedIn: isLoggedIn,
+        email: localStorage.getItem('myEmail'),
+        username: localStorage.getItem('myName'),
         panelStatus: {
             1: 'none',
             2: 'none',
