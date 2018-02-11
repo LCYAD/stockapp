@@ -25,3 +25,24 @@ export function showRightPanel() {
         payload: true
     };
 }
+
+export function loadLeftPanelType(type: string) {
+    return {
+        type: 'LOAD_LEFT_PANEL_TYPE',
+        payload: type
+    };
+}
+
+export function loadLeftPanelClass(classType: string)  {
+    return {
+        type: 'LOAD_LEFT_PANEL_CLASS',
+        payload: classType
+    };
+}
+
+export function changeCenterDimmed(dimmed: boolean)  {
+    return {
+        type: 'CHANGE_DIMMED',
+        payload: dimmed
+    };
+}

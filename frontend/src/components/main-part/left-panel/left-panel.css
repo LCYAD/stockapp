@@ -12,4 +12,5 @@
 .panel-link-tag {
     font-size: 10px;
     font-weight: 700;
+    word-wrap: break-word;
 }

@@ -14,6 +14,7 @@ interface SignFormProps {
   addToken: Function;
   sendSuccessMsg: Function;
   sendFailMsg: Function;
+  handleSignup: Function;
 }
 
 interface SignFormState {
@@ -66,19 +67,20 @@ class SignForm extends React.Component<SignFormProps, SignFormState> {
     e.preventDefault();
     if (this.state.emailvalid && this.state.passwordvalid && this.state.confirmpasswordvalid &&
       this.state.emaildirty && this.state.passworddirty && this.state.confirmpassworddirty) {
-      console.log(this.state.emailvalue, this.state.passwordvalue);
-      axios.post('http://localhost:8080/api/login/signup', {
-        email: this.state.emailvalue,
-        password: this.state.passwordvalue
-      }).then((res) => {
-        console.log(res.data.token);
-        // add the token onto the store
-        this.props.addToken(res.data.token);
-        this.props.sendSuccessMsg('Sign Up Successful!', 'Take a look around.');
-      }).catch((err) => {
-        console.log(err);
-        this.props.sendFailMsg('Sign Up Unsuccessful!', 'Please check your input.');
-      });
+      // console.log(this.state.emailvalue, this.state.passwordvalue);
+      this.props.handleSignup(this.state.emailvalue, this.state.passwordvalue);
+      // axios.post('http://localhost:8080/api/login/signup', {
+      //   email: this.state.emailvalue,
+      //   password: this.state.passwordvalue
+      // }).then((res) => {
+      //   console.log(res.data.token);
+      //   // add the token onto the store
+      //   this.props.addToken(res.data.token);
+      //   this.props.sendSuccessMsg('Sign Up Successful!', 'Take a look around.');
+      // }).catch((err) => {
+      //   console.log(err);
+      //   this.props.sendFailMsg('Sign Up Unsuccessful!', 'Please check your input.');
+      // });
     }
   }
 
@@ -231,6 +233,22 @@ const mapStatetoProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
+    handleSignup: (email: string, password: string) => {
+      axios.post('http://localhost:8080/api/login/signup', {
+        email: email,
+        password: password
+      }).then((res) => {
+        console.log(res.data.token);
+        // add the token onto the store
+        dispatch(addToken(res.data.token));
+        dispatch(successMsg('Sign Up Successful!', 'Take a look around.'));
+        setTimeout(() => { dispatch(hideMsg()); }, 3000);
+      }).catch((err) => {
+        console.log(err);
+        dispatch(failMsg('Sign Up Unsuccessful!', 'That email already exist'));
+        setTimeout(() => { dispatch(hideMsg()); }, 3000);
+      });
+    },
     addToken: (token: string) => {
       dispatch(addToken(token));
     },
