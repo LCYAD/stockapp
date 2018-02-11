@@ -2,8 +2,10 @@ import * as React from 'react';
 import './community.css';
 
 import List from '../../news/list';
-import ChartComponent from '../../chart/index';
-import Newslist from '../../news/newsList';
+//import ChartComponent from '../../chart/index';
+//import Newslist from '../../news/newsList';
+//import { Component } from 'react'
+import { Sidebar, Segment, Button, Menu, Icon/*, Image, Header */} from 'semantic-ui-react'
 import { connect } from 'react-redux';
 
 import { ActionFetchNews, ActionSelectInstrument, ActionFetchChartData, ActionFetchPost } from '../../../actions/newsAction';
@@ -24,11 +26,15 @@ interface CommunityProps {
 }
 
 interface CommunityState {
-    msg: any
+    msg: any;
+    visible: boolean;
 }
 
 class Community extends React.Component<CommunityProps, CommunityState> {
     post: any;
+
+    state = { msg: [], visible: false };
+    toggleVisibility = () => this.setState({ visible: !this.state.visible });
 
     constructor(props: any) {
         super(props);
@@ -37,11 +43,11 @@ class Community extends React.Component<CommunityProps, CommunityState> {
         this.handleFetchPost = this.handleFetchPost.bind(this);
       }
     
-      componentWillMount() {
+    componentWillMount() {
         this.props.fetchPost(this.props.user);
       }
     
-      handleFetchPost() {
+    handleFetchPost() {
         console.log(this.state);
         console.log(this.props);
         axios.post("http://localhost:8080/api/getpost", this.props.user
@@ -60,14 +66,14 @@ class Community extends React.Component<CommunityProps, CommunityState> {
         console.log(this.state);
       }
     
-      handleFetchNews(e: any) {
+    handleFetchNews(e: any) {
         console.log(e);
         this.props.fetchNews(e.target.value);
         this.props.fetchChartData(e.target.value);
         this.props.selectInstrument(e.target.value);
       }
     
-      handleFetchDropdown(value: any) {
+    handleFetchDropdown(value: any) {
          console.log(value);
          this.props.fetchNews(value);
          this.props.fetchChartData(value);
@@ -75,32 +81,54 @@ class Community extends React.Component<CommunityProps, CommunityState> {
        }
 
     render() {
-        console.log(this.props)
-        console.log(this.props.post!=null)
+        const { visible } = this.state;
+        console.log(this.props);
+        console.log(this.props.post!=null);
         if (this.props.post!=null) {
           return (
               <div id="coummunity-container">
-                  This is the main part.
-                  <AddPostComponent user={this.props.user} fetchPost={this.handleFetchPost}/>
-                  1st
-                  <ViewPostComponentWrapper post={this.props.post}/>
-                  {/* <ViewPostComponent post={this.state}/>  */}
-                  <List fetchNews={this.handleFetchNews} fetchDropdown={this.handleFetchDropdown}/>
-                  <ChartComponent /*fetchData={}*//*fetchData={() => return this;}*//>
-                  <Newslist/>
+                  <Button onClick={this.toggleVisibility}>Toggle Visibility</Button>
+                  <Sidebar.Pushable as={Segment}>
+                    <Sidebar as={Menu} animation='push' direction='top' visible={visible} inverted>
+                      <Menu.Item name='home'>
+                        <Icon name='home' />
+                        Home
+                              </Menu.Item>
+                      <Menu.Item name='gamepad'>
+                        <Icon name='gamepad' />
+                        Games
+                              </Menu.Item>
+                      <Menu.Item name='camera'>
+                        <Icon name='camera' />
+                        Channels
+                              </Menu.Item>
+                    </Sidebar>
+
+                    <Sidebar.Pusher>
+                      <Segment basic>
+
+                      <List fetchNews={this.handleFetchNews} fetchDropdown={this.handleFetchDropdown}/>
+                      {/* <ChartComponent /*fetchData={}*//*fetchData={() => return this;}*/}
+                      {/* <Newslist/> */}
+                      <AddPostComponent user={this.props.user} fetchPost={this.handleFetchPost}/>
+                      <ViewPostComponentWrapper post={this.props.post}/>
+                      {/* <ViewPostComponent post={this.state}/>  */}
+
+                      </Segment>
+                    </Sidebar.Pusher>
+                  </Sidebar.Pushable>
               </div>
           );
         }
         else {
           return (
             <div id="community-container">
-                  This is the main part.
+                  
                   <AddPostComponent user={this.props.user} fetchPost={this.handleFetchPost}/>
-                  2nd
                   <List fetchNews={this.handleFetchNews} fetchDropdown={this.handleFetchDropdown}/>
-                  <ChartComponent /*fetchData={}*//*fetchData={() => return this;}*//>
-                  <Newslist/>
-              </div>
+                  {/* <ChartComponent /*fetchData={}*//*fetchData={() => return this;}*/}
+                  {/* <Newslist/> */}
+            </div>
           );
         }
     }
@@ -118,7 +146,7 @@ const mapStatetoProps = (state: any) => {
     }
   };
   
-  const mapDispatchToProps = (dispatch: any) =>{
+const mapDispatchToProps = (dispatch: any) =>{
     return {
       fetchNews: (key: string) => {
         dispatch(ActionFetchNews(key));
@@ -133,6 +161,6 @@ const mapStatetoProps = (state: any) => {
         dispatch(ActionFetchPost(key));
       }
     };
-  }
+}
 
 export default connect(mapStatetoProps, mapDispatchToProps)(Community);

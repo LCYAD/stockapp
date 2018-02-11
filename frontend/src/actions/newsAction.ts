@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getData } from '../components/chart/utils';
+import { getData } from '../components/main-part/terminal/chart-panel/utils';
 import { instruMatch } from '../components/main-part/community/community';
 
 export function ActionFetchNews(key: string) {
@@ -19,7 +19,16 @@ export function ActionSelectInstrument(key: string) {
 export function ActionFetchChartData(key: string) {
     return {
         type: "GET_CHART",
-        payload: getData(instruMatch[key]/*"EUR_USD"*/),
+        payload: getData(instruMatch[key], "S30"/*"EUR_USD"*/),
+        meta: {instru: instruMatch[key], change: true}
+    };
+}
+
+export function ActionFetchChartDataGran(key: string, gran: string) {
+    return {
+        type: "GET_CHART",
+        payload: getData(key, gran/*"EUR_USD"*/),
+        meta: {instru: key, gran: gran, change: true}
     };
 }
 

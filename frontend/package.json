@@ -10,6 +10,7 @@
     "@types/redux-logger": "^3.0.5",
     "@types/redux-promise-middleware": "0.0.9",
     "@types/redux-thunk": "^2.1.0",
+    "@types/socket.io-client": "^1.4.32",
     "@types/uuid": "^3.4.3",
     "axios": "^0.17.1",
     "cloudinary-react": "^1.0.6",
@@ -31,6 +32,7 @@
     "redux-thunk": "^2.2.0",
     "semantic-ui-css": "^2.2.14",
     "semantic-ui-react": "^0.77.2",
+    "socket.io-client": "^2.0.4",
     "typescript": "^2.6.2",
     "uuid": "^3.1.0"
   },

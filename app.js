@@ -36,6 +36,21 @@ const config = require('./config');
 //declare express app
 const app = express();
 
+
+
+const http = require('http').Server(app);
+//const https    = require('https');
+const io = require('socket.io')(http);
+// socket IO ======================================================================
+require('./oanda/sio.js').receiveIO(io); // passing io sockets to module
+// Oanda API ======================================================================
+const oanda = require('./oanda/oanda.js');
+oanda.requestData();
+
+// io.on('connection', (socket)=>{
+//     console.log('A user has connected to the socket');
+// });
+
 //middleware setting
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -76,6 +91,10 @@ app.use(function(err, req, res, next) {
     res.render('error');
 });
 
-app.listen(8080);
+
+// const server = require('http').Server(app);
+// const io = require('socket.io')(server);
+
+http.listen(8080);
 
 module.exports = app;

@@ -29,7 +29,7 @@ class MainRoutes {
         //console.log(req);
         this.userService.getUser('local', req.body.email)
         .then(()=>{
-            console.log(req);
+            //console.log(req);
             console.log("get post~~");
             // }).then(function () {
             //         return knex("payment_paypal_status").insert([

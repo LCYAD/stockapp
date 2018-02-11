@@ -199,7 +199,7 @@ class CardBack extends React.Component<any,any> {
         let cardBody = document.querySelectorAll('div.card-container .id'+id) as HTMLCollectionOf<HTMLElement>;
         //let cardBody = document.getElementsByClassName('card-body') as HTMLCollectionOf<HTMLElement>;
         // for (var n=0; n<cardBody.length; n++) {
-            cardBody[0].style.transform = "rotateY(0deg)";
+            cardBody[0].style.transform = "rotateY(360deg)";
             cardBody[1].style.zIndex = '1';
             cardBody[1].style.visibility = 'hidden';
     

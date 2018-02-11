@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import NewsPanel from '../news-panel/news-panel';
 import OptionPanel from '../option-panel/option-panel';
 import WatchListPanel from '../watchlist-panel/watchlist-panel';
-import ChartPanel from '../chart-panel/chart-panel';
+import ChartPanel from '../chart-panel';
 
 interface LoadUtilProps {
     panel: string;

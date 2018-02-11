@@ -24,7 +24,7 @@ export default function newsReducer (state: ReducerState = initialState, action:
         case "GET_NEWS_PENDING":
             return state;
 
-        case "GET_NEWS_REJECzTED":
+        case "GET_NEWS_REJECTED":
             return state;
 
         case "GET_NEWS_FULFILLED":
@@ -34,9 +34,9 @@ export default function newsReducer (state: ReducerState = initialState, action:
                 fetched.push({title: action.payload.data[i].headline, url: action.payload.data[i].url, description: action.payload.data[i].summary});
             }
            // var fetched = [{title: action.payload.data[0].headline, url: action.payload.data[0].url, description: action.payload.data[0].summary}];
-            return {newslist: [...fetched]};
-        
-            case "GET_INSTRU":
+            return {...state, newslist: [...fetched]};
+
+        case "GET_INSTRU":
             console.log(action);
             return {...state, currentInstrument: action.payload, oandaInstrument: instruMatch[action.payload]};
         

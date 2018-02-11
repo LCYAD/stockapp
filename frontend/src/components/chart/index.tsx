@@ -7,6 +7,10 @@ import { connect } from 'react-redux';
 
 //var { TypeChooser } = require ("react-stockcharts/lib/helper");
 
+import liveData from "./liveData";
+
+const ChartWithUpdatingData = liveData(Chart);
+
 interface ChartProps {
 	//currentInstrument: '';
 	fetchData?: any;
@@ -20,7 +24,7 @@ class ChartComponent extends React.Component<ChartProps> {
 		super(props);
 	}
 
-	componentDidMount() {		
+	componentDidMount() {	
 		// getData(this.props.newsReducer.oandaInstrument/*"EUR_USD"*/).then(data => {
 		// 	//console.log(data);
 		// 	this.setState({ data: data})
@@ -28,8 +32,6 @@ class ChartComponent extends React.Component<ChartProps> {
 	}
 
 	render() {
-		console.log('Running render');
-
 		// getData(this.props.newsReducer.oandaInstrument/*"EUR_USD"*/).then(data => {
 		// 	console.log(data);
 		// 	if (this.state == null) {
@@ -51,7 +53,7 @@ class ChartComponent extends React.Component<ChartProps> {
 		return (
 			// <TypeChooser>
 			// 	{(type: any) => 
-				<Chart type={"hybrid"} data={this.props.fetchData}/> //		either "hybrid" or "svg"
+				<ChartWithUpdatingData type={"hybrid"} data={this.props.fetchData}/> //		either "hybrid" or "svg"
 			// 	}
 			// </TypeChooser>
 		)
