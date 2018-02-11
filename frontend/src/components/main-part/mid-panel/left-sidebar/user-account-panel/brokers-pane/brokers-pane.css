@@ -1,0 +1,33 @@
+.broker-pane-box {
+    overflow-y: auto;
+}
+
+.broker-api-box {
+    margin: 0px 20px;
+    border: 1px solid grey;
+    border-radius: 10px;
+    height: 300px;
+    box-shadow: 4px 4px grey;
+}
+
+.broker-image-box {
+    text-align: center;
+    padding: 30px;
+}
+
+.broker-api-content-box {
+    margin: 0px 10%;
+}
+
+.broker-api-content-box span{
+    margin-left: 10px;
+    color: red;
+}
+
+.broker-api-key-box {
+    margin: 20px 10%;
+}
+
+.api-key-submit-btn {
+    margin-top: 3px;
+}

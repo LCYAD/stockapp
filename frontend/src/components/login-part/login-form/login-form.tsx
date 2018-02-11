@@ -13,11 +13,11 @@ import { successMsg, failMsg, hideMsg } from '../../../actions/notificationActio
 import { hideLeftPanel, hideRightPanel } from '../../../actions/panelToggleAction';
 
 interface LoginFormProps {
-  addToken: Function;
-  sendSuccessMsg: Function;
-  sendFailMsg: Function;
   hideLeftPanel: Function;
   hideRightPanel: Function;
+  handleLocalLogin: Function;
+  handleSocialLogin: Function;
+  handleSocialLoginFailure: Function;
 }
 
 interface LoginFormState {
@@ -67,43 +67,21 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
   }
 
   handleSocialLogin(user: any) {
-    console.log(user._token);
-    axios.post('http://localhost:8080/api/login/facebook', {
-      access_token: user._token.accessToken
-    }).then((res) => {
-      console.log(res.data.token);
-      // add the token onto the store
-      this.props.addToken(res.data.token);
-      this.props.sendSuccessMsg('Login Success', 'You can now access our app!');
-    }).catch((err) => {
-      console.log(err);
-      this.props.sendFailMsg('Login Failed', 'Something went wrong!');
-    });
+    // console.log(user._token);
+    this.props.handleSocialLogin(user);
   }
 
   handleSocialLoginFailure(err: any) {
     console.log(err);
-    this.props.sendFailMsg('Login Failed', 'Please check your login credential!');
+    this.props.handleSocialLoginFailure();
   }
 
   submitForm(e: any): void {
     e.preventDefault();
     if (this.state.emailvalid && this.state.passwordvalid &&
       this.state.emaildirty && this.state.passworddirty) {
-      console.log(this.state.emailvalue, this.state.passwordvalue);
-      axios.post('http://localhost:8080/api/login', {
-        email: this.state.emailvalue,
-        password: this.state.passwordvalue
-      }).then((res) => {
-        // console.log(res.data.token);
-        // add the token onto the store
-        this.props.sendSuccessMsg('Login Success', 'You can now access our app!');
-        this.props.addToken(res.data.token);
-
-      }).catch((err) => {
-        console.log(err);
-        this.props.sendFailMsg('Login Failed', 'Please check your input!');
-      });
+      // console.log(this.state.emailvalue, this.state.passwordvalue);
+      this.props.handleLocalLogin(this.state.emailvalue, this.state.passwordvalue);
     }
   }
 
@@ -233,16 +211,40 @@ const mapStatetoProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    addToken: (token: string) => {
-      dispatch(addToken(token));
+    handleSocialLogin: (user: any) => {
+      axios.post('http://localhost:8080/api/login/facebook', {
+        access_token: user._token.accessToken
+      }).then((res) => {
+        // console.log(res.data.token);
+        // add the token onto the store
+        dispatch(addToken(res.data.token));
+        dispatch(successMsg('Login Success', 'You can now access our app!'));
+        setTimeout(() => { dispatch(hideMsg()); }, 3000);
+      }).catch((err) => {
+        console.log(err);
+        dispatch(failMsg('Login Failed', 'Something went wrong!'));
+        setTimeout(() => { dispatch(hideMsg()); }, 3000);
+      });
     },
-    sendSuccessMsg: (title: string, message: string) => {
-      dispatch(successMsg(title, message));
+    handleSocialLoginFailure: () => {
+      dispatch(failMsg('Login Failed', 'Please check your login credential!'));
       setTimeout(() => { dispatch(hideMsg()); }, 3000);
     },
-    sendFailMsg: (title: string, message: string) => {
-      dispatch(failMsg(title, message));
-      setTimeout(() => { dispatch(hideMsg()); }, 3000);
+    handleLocalLogin: (email: string, password: string) => {
+      axios.post('http://localhost:8080/api/login', {
+        email: email,
+        password: password
+      }).then((res) => {
+        // console.log(res.data.token);
+        // add the token onto the store
+        dispatch(addToken(res.data.token));
+        dispatch(successMsg('Login Success', 'You can now access our app!'));
+        setTimeout(() => { dispatch(hideMsg()); }, 3000);
+      }).catch((err) => {
+        console.log(err);
+        dispatch(failMsg('Login Failed', 'Please check your input!'));
+        setTimeout(() => { dispatch(hideMsg()); }, 3000);
+      });
     },
     hideLeftPanel: () => {
       dispatch(hideLeftPanel());

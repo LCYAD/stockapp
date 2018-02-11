@@ -3,20 +3,35 @@ import './left-panel.css';
 
 import { Button, Icon, Divider } from 'semantic-ui-react';
 
-import { NavLink } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 
 // import actions
-import { hideLeftPanel, hideRightPanel, showLeftPanel, showRightPanel } from '../../../actions/panelToggleAction';
+import  {   hideLeftPanel, hideRightPanel, showLeftPanel, 
+            showRightPanel, loadLeftPanelClass, loadLeftPanelType,
+            changeCenterDimmed
+         } from '../../../actions/panelToggleAction';
+
+// import components
+import TerminalLinkBtn from './terminal-link-btn/terminal-link-btn';
+import FundamentalLinkBtn from './fundamental-link-btn/fundamnetal-link-btn';
+import CommunityLinkBtn from './community-link-btn/community-link-btn';
 
 interface LeftPanelProps {
     leftShow: boolean;
     rightShow: boolean;
+    leftLoadType: string;
     hideLeftPanel: Function;
     hideRightPanel: Function;
     showLeftPanel: Function;
     showRightPanel: Function;
+    loadTerminalAccount: Function;
+    loadUserAccount: Function;
+    loadTerminalBuySell: Function;
+    oandatoken: string;
+    oandavalid: boolean;
+    match: any;
 }
 
 interface LeftPanelState { }
@@ -24,30 +39,134 @@ interface LeftPanelState { }
 class LeftPanel extends React.Component<LeftPanelProps, LeftPanelState> {
     constructor(props: any) {
         super(props);
-        this.movetoTerminal = this.movetoTerminal.bind(this);
-        this.movetoFundamental = this.movetoFundamental.bind(this);
-        this.movetoCommunity = this.movetoCommunity.bind(this);
-        this.toggleLeftPanel = this.toggleLeftPanel.bind(this);
+        this.toggleUserAccountPanel = this.toggleUserAccountPanel.bind(this);
+        this.toggleTerminalAccountPanel = this.toggleTerminalAccountPanel.bind(this);
+        this.toggleTerminalBuySellPanel = this.toggleTerminalBuySellPanel.bind(this);
         this.toggleRightPanel = this.toggleRightPanel.bind(this);
+        this.loadTerminalLinkBtn = this.loadTerminalLinkBtn.bind(this);
+        this.loadFundamentalLinkBtn = this.loadFundamentalLinkBtn.bind(this);
+        this.loadCommunityLinkBtn = this.loadCommunityLinkBtn.bind(this);
+        this.loadTerminalBtns = this.loadTerminalBtns.bind(this);
     }
 
-    movetoTerminal() {
-        console.log('Loading Terminal');
+    loadTerminalLinkBtn() {
+        return (
+            <div>
+                <FundamentalLinkBtn />
+                <CommunityLinkBtn />
+            </div>
+        );
     }
 
-    movetoFundamental() {
-        console.log('Loading Fundamental');
+    loadFundamentalLinkBtn() {
+        return (
+            <div>
+                <TerminalLinkBtn />
+                <CommunityLinkBtn />
+            </div>
+        );
     }
 
-    movetoCommunity() {
-        console.log('Loading Community');
+    loadCommunityLinkBtn() {
+        return (
+            <div>
+                <TerminalLinkBtn />
+                <FundamentalLinkBtn />
+            </div>
+        );
     }
 
-    toggleLeftPanel() {
-        if (this.props.leftShow) {
-            this.props.hideLeftPanel();
+    loadTerminalBtns(){
+        if (this.props.oandatoken && this.props.oandavalid){
+            return (
+                <div className="left-link-btn">
+                    <Button
+                        animated={true}
+                        inverted={true}
+                        onClick={this.toggleTerminalAccountPanel}
+                        size="large"
+                    >
+                        <Button.Content
+                            visible={true}
+                        >
+                            <Icon
+                                name="user circle outline"
+                            />
+                        </Button.Content>
+                        <Button.Content
+                            hidden={true}
+                            className="panel-link-tag"
+                        >
+                            Your Account
+                        </Button.Content>
+                    </Button>
+                </div>
+            );
         } else {
-            this.props.showLeftPanel();
+            return (
+                <div/>
+            );
+        }
+    }
+
+    toggleTerminalAccountPanel() {
+        // check if the panel is already loaded or not
+        if (this.props.leftLoadType === 'terminal-account') {
+            if (this.props.leftShow) {
+                this.props.hideLeftPanel();
+            } else {
+                this.props.showLeftPanel();
+            }
+        } else {
+            if (this.props.leftShow) {
+                this.props.hideLeftPanel();
+                setTimeout(this.props.loadTerminalAccount, 500);
+                setTimeout(this.props.showLeftPanel, 600);
+            } else {
+                this.props.loadTerminalAccount();
+                this.props.showLeftPanel();
+            }
+        }
+    }
+
+    toggleTerminalBuySellPanel() {
+        // check if the panel is already loaded or not
+        if (this.props.leftLoadType === 'terminal-buysell') {
+            if (this.props.leftShow) {
+                this.props.hideLeftPanel();
+            } else {
+                this.props.showLeftPanel();
+            }
+        } else {
+            if (this.props.leftShow) {
+                this.props.hideLeftPanel();
+                setTimeout(this.props.loadTerminalBuySell,500);
+                setTimeout(this.props.showLeftPanel, 600);
+            } else {
+                this.props.loadTerminalBuySell();
+                this.props.showLeftPanel();
+            }
+        }
+    }
+
+    toggleUserAccountPanel() {
+        // check if the panel is already loaded or not
+        if (this.props.leftLoadType === 'user-account') {
+            if (this.props.leftShow) {
+                this.props.hideLeftPanel();
+            } else {
+                this.props.showLeftPanel();
+            }
+        } else {
+            if (this.props.leftShow) {
+                this.props.hideLeftPanel();
+                setTimeout(this.props.loadUserAccount, 500);
+                setTimeout(this.props.showLeftPanel, 600);
+            } else {
+                this.props.loadUserAccount();
+                this.props.showLeftPanel();
+            }
+
         }
     }
 
@@ -63,117 +182,70 @@ class LeftPanel extends React.Component<LeftPanelProps, LeftPanelState> {
         return (
             <div id="panel-grid">
                 <div>
-                    <NavLink
-                        to="/main/terminal"
-                        style={{ textDecoration: 'none' }}
-                    >
-                    <div className="left-link-btn">
-                        
-                        <Button
-                            animated={true}
-                            inverted={true}
-                            onClick={this.movetoTerminal}
-                            size="large"
-                        >
-                            <Button.Content
-                                visible={true}
-                            >
-                                <Icon
-                                    name="terminal"
-                                />
-                            </Button.Content>
-                            <Button.Content
-                                hidden={true}
-                                className="panel-link-tag"
-                            >
-                                Terminal
-                            </Button.Content>
-                        </Button>
-                    </div>
-                    </NavLink>
-                    <NavLink
-                        to="/main/fundamental"
-                        style={{ textDecoration: 'none' }}
-                    >
-                    <div className="left-link-btn">
-                        <Button
-                            animated={true}
-                            inverted={true}
-                            onClick={this.movetoFundamental}
-                            size="large"
-                        >
-                            <Button.Content
-                                visible={true}
-                            >
-                                <Icon
-                                    name="table"
-                                />
-                            </Button.Content>
-                            <Button.Content
-                                hidden={true}
-                                className="panel-link-tag"
-                            >
-                                Fundamental
-                            </Button.Content>
-                        </Button>
-                    </div>
-                    </NavLink>
-                    <NavLink
-                        to="/main/community"
-                        style={{ textDecoration: 'none' }}
-                    >
-                    <div className="left-link-btn">
-                        <Button
-                            animated={true}
-                            inverted={true}
-                            onClick={this.movetoCommunity}
-                            size="large"
-                        >
-                            <Button.Content
-                                visible={true}
-                            >
-                                <Icon
-                                    name="world"
-                                />
-                            </Button.Content>
-                            <Button.Content
-                                hidden={true}
-                                className="panel-link-tag"
-                            >
-                                Community
-                            </Button.Content>
-                        </Button>
-                    </div>
-                    </NavLink>
+                    <Switch>
+                        <Route
+                            exact={true}
+                            path={`${this.props.match.path}/`}
+                            render={()=> (
+                                this.loadCommunityLinkBtn()
+                            )}
+                        />
+                        <Route
+                            path={`${this.props.match.path}/terminal`}
+                            render={()=> (
+                                this.loadTerminalLinkBtn()
+                            )}
+                        />
+                        <Route
+                            path={`${this.props.match.path}/fundamental`}
+                            render={()=> (
+                                this.loadFundamentalLinkBtn()
+                            )}
+                        />
+                        <Route
+                            path={`${this.props.match.path}/community`}
+                            render={()=> (
+                                this.loadCommunityLinkBtn()
+                            )}
+                        />
+                    </Switch>
                 </div>
+
+                {/* Different button for different routes */}
                 <div>
                     <Divider 
                         inverted={true}
                     />
-                    <div className="left-link-btn">
-                        <Button
-                            animated={true}
-                            inverted={true}
-                            onClick={this.toggleLeftPanel}
-                            size="large"
-                        >
-                            <Button.Content
-                                visible={true}
-                            >
-                                <Icon
-                                    name="envira gallery"
-                                />
-                            </Button.Content>
-                            <Button.Content
-                                hidden={true}
-                                className="panel-link-tag"
-                            >
-                                Temp Button Left
-                            </Button.Content>
-                        </Button>
-                    </div>
+                    <Switch>
+                        <Route
+                            exact={true}
+                            path={`${this.props.match.path}/`}
+                            render={()=> (
+                                <div/>
+                            )}
+                        />
+                        <Route
+                            path={`${this.props.match.path}/terminal`}
+                            render={()=> (
+                                this.loadTerminalBtns()
+                            )}
+                        />
+                        <Route
+                            path={`${this.props.match.path}/fundamental`}
+                            render={()=> (
+                                <div/>
+                            )}
+                        />
+                        <Route
+                            path={`${this.props.match.path}/community`}
+                            render={()=> (
+                                <div/>
+                            )}
+                        />
+                    </Switch>
                 </div>
 
+                {/* Button for message & Account panel - always on */}
                 <div id="left-message-panel">
                     <Divider 
                         inverted={true} 
@@ -200,6 +272,28 @@ class LeftPanel extends React.Component<LeftPanelProps, LeftPanelState> {
                             </Button.Content>
                         </Button>
                     </div>
+                    <div className="left-link-btn">
+                        <Button
+                            animated={true}
+                            inverted={true}
+                            onClick={this.toggleUserAccountPanel}
+                            size="large"
+                        >
+                            <Button.Content
+                                visible={true}
+                            >
+                                <Icon
+                                    name="user"
+                                />
+                            </Button.Content>
+                            <Button.Content
+                                hidden={true}
+                                className="panel-link-tag"
+                            >
+                                User
+                            </Button.Content>
+                        </Button>
+                    </div>
                 </div>
             </div>
         );
@@ -209,7 +303,10 @@ class LeftPanel extends React.Component<LeftPanelProps, LeftPanelState> {
 const mapStateToProps = (state: any) => {
     return {
         leftShow: state.panelToggle.leftShow,
-        rightShow: state.panelToggle.rightShow
+        rightShow: state.panelToggle.rightShow,
+        leftLoadType: state.panelToggle.leftLoadType,
+        oandatoken: state.user.oandatoken,
+        oandavalid: state.user.oandavalid,
     };
 };
 
@@ -217,16 +314,30 @@ const mapDispatchToProps = (dispatch: any) => {
     return {
         hideLeftPanel: () => {
             dispatch(hideLeftPanel());
+            dispatch(changeCenterDimmed(false));
         },
         hideRightPanel: () => {
             dispatch(hideRightPanel());
         },
         showLeftPanel: () => {
             dispatch(showLeftPanel());
+            dispatch(changeCenterDimmed(true));
         },
         showRightPanel: () => {
             dispatch(showRightPanel());
         },
+        loadTerminalAccount: () => {
+            dispatch(loadLeftPanelType('terminal-account'))
+            dispatch(loadLeftPanelClass('main-leftsidebar2'))
+        },
+        loadUserAccount: () => {
+            dispatch(loadLeftPanelType('user-account'))
+            dispatch(loadLeftPanelClass('main-leftsidebar1'))
+        },
+        loadTerminalBuySell: () => {
+            dispatch(loadLeftPanelType('terminal-buysell'))
+            dispatch(loadLeftPanelClass('main-leftsidebar1'))
+        }
     };
 };
 

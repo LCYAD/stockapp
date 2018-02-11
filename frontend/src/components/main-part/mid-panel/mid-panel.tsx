@@ -11,10 +11,13 @@ import { Route, Switch } from 'react-router-dom';
 import Terminal from '../terminal/terminal';
 import Community from '../community/community';
 import Fundamental from '../fundamental/fundamental';
+import LeftSidebar from './left-sidebar/left-sidebar';
 
 interface MidPanelProps {
   leftShow: boolean;
   rightShow: boolean;
+  leftLoadClass: string;
+  centerDimmed: boolean;
   history: any;
   location: any;
   match: {
@@ -42,24 +45,21 @@ class MidPanel extends React.Component<MidPanelProps, MidPanelState> {
   }
 
   render() {
-    let width: 'very thin' | 'thin' | 'wide' | 'very wide' = 'thin';
     return (
       <div>
         <Sidebar.Pushable as={Segment}>
           <Sidebar
             animation="overlay"
-            width={width}
             visible={this.props.leftShow}
             icon="labeled"
             vertical="true"
             inverted="true"
-            className="main-sidebar"
+            className={this.props.leftLoadClass}
           >
-            Left Sidebar
+            <LeftSidebar/>
           </Sidebar>
           <Sidebar
             animation="overlay"
-            width="wide"
             direction="right"
             visible={this.props.rightShow}
             icon="labeled"
@@ -69,7 +69,9 @@ class MidPanel extends React.Component<MidPanelProps, MidPanelState> {
           >
             Right Sidebar
           </Sidebar>
-          <Sidebar.Pusher>
+          <Sidebar.Pusher
+            dimmed={this.props.centerDimmed}
+          >
             <Switch>
               <Route
                 exact={true}
@@ -99,7 +101,9 @@ class MidPanel extends React.Component<MidPanelProps, MidPanelState> {
 const mapStateToProps = (state: any) => {
   return {
     leftShow: state.panelToggle.leftShow,
-    rightShow: state.panelToggle.rightShow
+    rightShow: state.panelToggle.rightShow,
+    leftLoadClass: state.panelToggle.leftLoadClass,
+    centerDimmed: state.panelToggle.centerDimmed,
   };
 };
 

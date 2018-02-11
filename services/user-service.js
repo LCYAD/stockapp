@@ -1,10 +1,10 @@
 class UserService {
-    constructor(knex, uuid){
+    constructor(knex, uuid) {
         this.knex = knex;
         this.uuid = uuid;
     }
 
-    getUser(type="", userEmail="", userID=""){
+    getUser(type = "", userEmail = "", userID = "") {
         if (type === "") {
             return this.knex.select('*').from('users').where({
                 id: userID
@@ -17,7 +17,7 @@ class UserService {
         }
     }
 
-    createUser(type, email, password = ""){
+    createUser(type, email, password = "") {
         return this.knex.insert({
             id: this.uuid(),
             email: email,
@@ -27,7 +27,11 @@ class UserService {
                 1: 'none',
                 2: 'none',
                 3: 'none'
-            })
+            }),
+            user_setting: JSON.stringify({currency: '', balance: '', leverage: '', beta_low: '', beta_high: ''}),
+            watchlist: JSON.stringify({}),
+            igtoken: '',
+            oandatoken: '',
         }).into('users').returning('id');
     }
 

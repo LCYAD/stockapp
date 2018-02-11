@@ -21,14 +21,20 @@ const knex = require('knex')({
 //routes instance
 var LoginRoutes = require ('./routes/login-routes');
 var UserRoutes = require ('./routes/user-routes');
+<<<<<<< HEAD
 var PostRoutes = require ('./routes/post-routes');
 var GetpostRoutes = require ('./routes/getpost-routes');
+=======
+var BrokerRoutes = require ('./routes/broker-routes');
+>>>>>>> 5233c24673760c1166854bfbdfe2ffdfabde19be
 
 //service file
 const UserService = require('./services/user-service');
+const BrokerService = require('./services/broker-service');
 
 //service instance
 const userService = new UserService(knex, uuid);
+const brokerService = new BrokerService(knex);
 
 //jwt import
 const config = require('./config');
@@ -70,8 +76,12 @@ app.use(allowCrossDomain);
 //Routing
 app.use('/api/login', new LoginRoutes(userService).router());
 app.use('/api/user', new UserRoutes(userService).router());
+<<<<<<< HEAD
 app.use('/api/post', new PostRoutes(userService).router());
 app.use('/api/getpost', new GetpostRoutes(userService).router());
+=======
+app.use('/api/broker', new BrokerRoutes(brokerService).router());
+>>>>>>> 5233c24673760c1166854bfbdfe2ffdfabde19be
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

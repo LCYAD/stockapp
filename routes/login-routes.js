@@ -90,7 +90,6 @@ class LoginRoutes {
 
     signup(req,res){
         return this.userService.createUser('local', req.body.email, req.body.password).then(id=>{
-            
             var payload = {
                 id: id[0]
             };

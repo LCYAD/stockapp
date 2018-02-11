@@ -1,4 +1,14 @@
-#terminal-container {
+.terminal-container {
     width: 100%; 
     height: 95vh; 
+}
+
+.not-available {
+    background: url(https://www.oanda.com/wandacache/bg-image-header-hero-fb49fd8d0de271b90ed4a6ffc3c6178fda4aa7c4.jpg) center center/cover no-repeat #817360;
+    vertical-align: center;
+    text-align: center;
+    color: white;
+    padding-top: 20%;
+    font-size: 45px;
+    font-weight: 700;
 }

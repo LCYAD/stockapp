@@ -25,3 +25,31 @@ export function getUserSetting() {
         })
     }
 }
+
+export function igTokenValidity(result: boolean) {
+    return {
+        type: "IG_TOKEN_VALIDITY",
+        payload: result
+    }
+}
+
+export function changeIGKey(key: string) {
+    return {
+        type: "CHANGE_IG_KEY",
+        payload: key
+    }
+}
+
+export function oandaTokenValidity(result: boolean) {
+    return {
+        type: "OANDA_TOKEN_VALIDITY",
+        payload: result
+    }
+}
+
+export function changeOnadaKey(key: string) {
+    return {
+        type: "CHANGE_OANDA_KEY",
+        payload: key
+    }
+}

@@ -26,7 +26,7 @@ module.exports = function(){
         secretOrKey: config.jwtSecret,
         jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken('JWT')
     },(payload,done)=>{
-        // console.log(payload);
+        console.log(payload);
         userService.getUser("", "", payload.id)
         .then(user=> {
             console.log(user);

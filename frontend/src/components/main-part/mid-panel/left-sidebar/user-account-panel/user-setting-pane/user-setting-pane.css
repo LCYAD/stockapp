@@ -1,0 +1,12 @@
+.user-setting-pane-box {
+    margin: 20px 10%;
+}
+
+.user-setting-pane-title {
+    text-align: center;
+}
+
+.user-setting-pane-table {
+    justify-content: center;
+    padding: 20px 0px 0px 0px;
+}
