@@ -17,14 +17,86 @@ var {
 var { discontinuousTimeScaleProvider } = require("react-stockcharts/lib/scale");
 var { OHLCTooltip } = require("react-stockcharts/lib/tooltip");
 var { fitWidth, SaveChartAsImage } = require("react-stockcharts/lib/helper");
-var { /*StandardDeviationChannel,*/ EquidistantChannel, TrendLine, FibonacciRetracement, DrawingObjectSelector } = require("react-stockcharts/lib/interactive");
+var { /*StandardDeviationChannel,*/ EquidistantChannel, TrendLine, FibonacciRetracement, DrawingObjectSelector, InteractiveText } = require("react-stockcharts/lib/interactive");
 var { /*last,*/ toObject } = require("react-stockcharts/lib/utils");
 
 import {
 	saveInteractiveNodes,
 	getInteractiveNodes,
 } from "./interactiveutils";
-import { Menu } from "semantic-ui-react";
+import { Menu, Modal, Button, /*FormGroup,*/ Form, TextArea } from "semantic-ui-react";
+
+class Dialog extends React.Component {
+    state: any;
+    props: any;
+	constructor(props: any) {
+		super(props);
+		this.state = {
+			text: props.text,
+		};
+		this.handleChange = this.handleChange.bind(this);
+		this.handleSave = this.handleSave.bind(this);
+	}
+	componentWillReceiveProps(nextProps: any) {
+		this.setState({
+			text: nextProps.text,
+		});
+	}
+	handleChange(e:any) {
+		this.setState({
+			text: e.target.value
+		});
+	}
+	handleSave() {
+		this.props.onSave(this.state.text, this.props.chartId);
+	}
+	render() {
+		const {
+			showModal,
+			onClose,
+		} = this.props;
+		const { text } = this.state;
+
+		return (
+			<Modal show={showModal} onHide={onClose} >
+				<Modal.Header closeButton>
+					<b>Edit text</b>
+				</Modal.Header>
+
+				<Modal.Content>
+					<form>
+						<Form.Group controlId="text">
+							<Form.Field control={TextArea} type="text" value={text} onChange={this.handleChange} />
+						</Form.Group>
+					</form>
+				</Modal.Content>
+
+				<Modal.Actions>
+					<Button bsStyle="primary" onClick={this.handleSave}>Save</Button>
+				</Modal.Actions>
+            </Modal>
+
+            // <Modal show={showModal} onHide={onClose} >
+			// 	<Modal.Header closeButton>
+			// 		<Modal.Title>Edit text</Modal.Title>
+			// 	</Modal.Header>
+
+			// 	<Modal.Body>
+			// 		<form>
+			// 			<FormGroup controlId="text">
+			// 				<ControlLabel>Text</ControlLabel>
+			// 				<FormControl type="text" value={text} onChange={this.handleChange} />
+			// 			</FormGroup>
+			// 		</form>
+			// 	</Modal.Body>
+
+			// 	<Modal.Footer>
+			// 		<Button bsStyle="primary" onClick={this.handleSave}>Save</Button>
+			// 	</Modal.Footer>
+            // </Modal>
+		);
+	}
+}
 
 class CandleStickChartWithStandardDeviationChannel extends React.Component {
     channels_1: any;
@@ -56,27 +128,115 @@ class CandleStickChartWithStandardDeviationChannel extends React.Component {
 		this.saveInteractiveNodes = saveInteractiveNodes.bind(this);
         this.getInteractiveNodes = getInteractiveNodes.bind(this);
         this.fib = this.fib.bind(this);
+        this.text = this.text.bind(this);
 		this.trend = this.trend.bind(this);
 		this.channel = this.channel.bind(this);
 
+
+        this.handleChoosePosition = this.handleChoosePosition.bind(this);
+        this.handleDialogClose = this.handleDialogClose.bind(this);
+		this.handleTextChange = this.handleTextChange.bind(this);
 		// this.state = {
 		// 	enableInteractiveObject: true,
 		// 	channels_1: []
         // };
+        this.onTextComplete = this.onTextComplete.bind(this);
+
         this.state = {
 			enableTrendLine: false,
 			trends_1: [
 				//{ start: [1606, 56], end: [1711, 53], appearance: { stroke: "green" }, type: "XLINE" }
 			],
-			trends_3: [],
+            //trends_3: [],
+            textList_1: [],
 			enableFib: false,
 			retracements_1: [],
-			retracements_3: [],
+			//retracements_3: [],
 			enableInteractiveObject: false,
 			channels_1: [],
-			channels_3: []
+            //channels_3: []
+            enableText: false,
+            showModal: false
 		};
-	}
+    }
+    
+    // handleSelection(interactives:any, moreProps:any, e:any) {
+	// 	if (this.state.enableInteractiveObject) {
+	// 		const independentCharts = moreProps.currentCharts.filter((d:any) => d !== 2)
+	// 		if (independentCharts.length > 0) {
+	// 			const first = head(independentCharts);
+
+	// 			const morePropsForChart = getMorePropsForChart(moreProps, first)
+	// 			const {
+	// 				mouseXY: [, mouseY],
+	// 				chartConfig: { yScale },
+	// 				xAccessor,
+	// 				currentItem,
+	// 			} = morePropsForChart;
+
+	// 			const position = [xAccessor(currentItem), yScale.invert(mouseY)];
+	// 			const newText = {
+	// 				...InteractiveText.defaultProps.defaultText,
+	// 				position,
+	// 			};
+	// 			this.handleChoosePosition(newText, morePropsForChart, e);
+	// 		}
+	// 	} else {
+	// 		const state = toObject(interactives, (each:any) => {
+	// 			return [
+	// 				`textList_${each.chartId}`,
+	// 				each.objects,
+	// 			];
+	// 		});
+	// 		this.setState(state);
+	// 	}
+    // }
+    
+	handleChoosePosition(text:any, moreProps:any) {
+		this.componentWillUnmount();
+		const { id: chartId } = moreProps.chartConfig;
+
+		this.setState({
+			[`textList_${chartId}`]: [
+				...this.state[`textList_${chartId}`],
+				text
+			],
+			showModal: true,
+			text: text.text,
+			chartId
+		});
+    }
+    
+	handleTextChange(text:any, chartId:any) {
+        var last:any;
+		const textList = this.state[`textList_${chartId}`];
+		const allButLast = textList
+			.slice(0, textList.length - 1);
+
+		const lastText = {
+			...last(textList),
+			text,
+		};
+
+		this.setState({
+			[`textList_${chartId}`]: [
+				...allButLast,
+				lastText
+			],
+			showModal: false,
+			enableText: false,
+		});
+		this.componentDidMount();
+    }
+    
+	handleDialogClose() {
+		this.setState({
+			showModal: false,
+		});
+		this.componentDidMount();
+    }
+    
+
 	saveInteractiveNode(node: any) {
 		this.node = node;
 	}
@@ -133,6 +293,14 @@ class CandleStickChartWithStandardDeviationChannel extends React.Component {
 		});
 	}
     
+    text() {
+		console.log(this.state);
+		this.setState({
+            enableText: true,
+            showModal : true
+		});
+    }
+    
     channel() {
 		console.log(this.state);
 		this.setState({
@@ -178,6 +346,18 @@ class CandleStickChartWithStandardDeviationChannel extends React.Component {
 		}
     }
     
+    onTextComplete(textList:any, moreProps:any) {
+		// this gets called on
+		// 1. draw complete of drawing object
+		// 2. drag complete of drawing object
+		const { id: chartId } = moreProps.chartConfig;
+
+		this.setState({
+			enableInteractiveObject: false,
+			[`textList_${chartId}`]: textList,
+		});
+    }
+    
 	onKeyPress(e:any) {
 		const keyCode = e.which;
 		console.log(keyCode);
@@ -191,11 +371,15 @@ class CandleStickChartWithStandardDeviationChannel extends React.Component {
                 .filter((each: any) => !each.selected);      
             const retracements_1 = this.state.retracements_1
                 .filter((each:any) => !each.selected);
+            
+            var textList_1 = this.state.textList_1.filter((d:any) => !d.selected);
+
             this.canvasNode.cancelDrag();
             this.setState({
                 trends_1,
                 retracements_1,
                 channels_1,
+                textList_1
             });
 
 			// this.canvasNode.cancelDrag();
@@ -224,6 +408,7 @@ class CandleStickChartWithStandardDeviationChannel extends React.Component {
 		}
 	}
 	render() {
+        const { showModal, text } = this.state;
 		const { type, data: initialData, width, ratio } = this.props;
 		//const { channels_1 } = this.state;
 
@@ -251,6 +436,9 @@ class CandleStickChartWithStandardDeviationChannel extends React.Component {
                     <div className="column">
                         <div className="ui tabular">
                         <Menu vertical tabular style = {menuStyle}>
+                            <Menu.Item onClick={this.text} onMouseOver={()=>this.svgHoverOn("text")} onMouseOut={()=>this.svgHoverOut("text")} onLoad={()=>this.svgHoverOut("text")}>
+                                <svg className="text" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width="28" height="28"><g fillRule="nonzero"><path d="M14 5.5v17h1v-17z" id="Line"></path><path d="M9 8.5v-2.001c0-.272.229-.499.502-.499h9.995c.28 0 .502.221.502.499v2.001h1v-2.001c0-.832-.672-1.499-1.502-1.499h-9.995c-.824 0-1.502.673-1.502 1.499v2.001h1z"></path><path d="M12 23h5v-1h-5z"></path></g></svg>
+                            </Menu.Item>
                             <Menu.Item onClick={this.channel} onMouseOver={()=>this.svgHoverOn("channel")} onMouseOut={()=>this.svgHoverOut("channel")} onLoad={()=>this.svgHoverOut("channel")}>
                                 <svg className="channel" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width="28" height="28"><g fillRule="nonzero"><path d="M7.463 12.026l13.537-7.167-.468-.884-13.537 7.167z"></path><path d="M22.708 16.824l-17.884 9.468.468.884 17.884-9.468z"></path><path d="M22.708 9.824l-15.839 8.386.468.884 15.839-8.386z"></path><path d="M5.5 14c.828 0 1.5-.672 1.5-1.5s-.672-1.5-1.5-1.5-1.5.672-1.5 1.5.672 1.5 1.5 1.5zm0 1c-1.381 0-2.5-1.119-2.5-2.5s1.119-2.5 2.5-2.5 2.5 1.119 2.5 2.5-1.119 2.5-2.5 2.5zM5.5 21c.828 0 1.5-.672 1.5-1.5s-.672-1.5-1.5-1.5-1.5.672-1.5 1.5.672 1.5 1.5 1.5zm0 1c-1.381 0-2.5-1.119-2.5-2.5s1.119-2.5 2.5-2.5 2.5 1.119 2.5 2.5-1.119 2.5-2.5 2.5zM22.5 5c.828 0 1.5-.672 1.5-1.5s-.672-1.5-1.5-1.5-1.5.672-1.5 1.5.672 1.5 1.5 1.5zm0 1c-1.381 0-2.5-1.119-2.5-2.5s1.119-2.5 2.5-2.5 2.5 1.119 2.5 2.5-1.119 2.5-2.5 2.5z"></path></g></svg>
                             </Menu.Item>
@@ -343,6 +531,13 @@ class CandleStickChartWithStandardDeviationChannel extends React.Component {
                                 onComplete={this.onDrawComplete}
                                 channels={this.state.channels_1}
                             />
+                            <InteractiveText
+                                ref={this.saveInteractiveNodes("InteractiveText", 1)}
+                                enabled={this.state.enableText}
+                                text="Lorem ipsum..."
+                                onDragComplete={this.onTextComplete}
+                                textList={this.state.textList_1}
+                            />
 
                         </Chart>
                         <CrossHairCursor />
@@ -353,9 +548,17 @@ class CandleStickChartWithStandardDeviationChannel extends React.Component {
                                 //StandardDeviationChannel: "channels",
                                 Trendline: "trends",
                                 FibonacciRetracement: "retracements",
-                                EquidistantChannel: "channels"
+                                EquidistantChannel: "channels",
+                                InteractiveText: "textList"
                             }}
                             onSelect={this.handleSelection}
+                        />
+                        <Dialog
+                            showModal={showModal}
+                            text={text}
+                            chartId={this.state.chartId}
+                            onClose={this.handleDialogClose}
+                            onSave={this.handleTextChange}
                         />
                     </ChartCanvas>
                 </div>
