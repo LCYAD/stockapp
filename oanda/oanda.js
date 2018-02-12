@@ -63,7 +63,6 @@ module.exports.requestData = ()=>{
             console.log("Error connecting to OANDA HTTP Rates Server");
             console.log("HTTP - " + response.statusCode);
             console.log(bodyChunk);
-            process.exit(1);
         });
     });
 

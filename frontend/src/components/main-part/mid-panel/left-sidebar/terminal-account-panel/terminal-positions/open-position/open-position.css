@@ -1,0 +1,14 @@
+#open-position-pane {
+    height: 100%;
+}
+
+.open-position-cell {
+    font-size: 10px;
+}
+
+.close-position-btn {
+    padding: 0px;
+    background: transparent;
+    border: none;
+    outline: none;
+}

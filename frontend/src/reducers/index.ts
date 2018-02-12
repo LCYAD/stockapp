@@ -8,6 +8,7 @@ import panelToggle from './panelToggle';
 import newsReducer from './newsReducer';
 import watchlistReducer from './watchlistReducer';
 import userAccountBrokerPane from './useraccount-brokerpane';
+import brokerOanda from './broker-oanda';
 
 export default combineReducers({
     user,
@@ -16,4 +17,5 @@ export default combineReducers({
     newsReducer,
     watchlistReducer,
     userAccountBrokerPane,
+    brokerOanda,
 });

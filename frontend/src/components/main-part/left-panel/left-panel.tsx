@@ -97,7 +97,7 @@ class LeftPanel extends React.Component<LeftPanelProps, LeftPanelState> {
                             hidden={true}
                             className="panel-link-tag"
                         >
-                            Your Account
+                            Account
                         </Button.Content>
                     </Button>
                 </div>

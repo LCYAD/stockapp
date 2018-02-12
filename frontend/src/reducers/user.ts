@@ -77,6 +77,9 @@ export default function reducer(state: ReducerState = getInitState(), action: Re
         case 'GET_USER_SETTING_REJECTED':
             return state;
 
+        case 'UPDATE_USER_SETTING':
+            return {...state, user_setting: action.payload}
+
         case 'LOAD_WATCHLIST_PENDING':
             return state;
     

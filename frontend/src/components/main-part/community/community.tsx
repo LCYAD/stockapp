@@ -45,7 +45,7 @@ class Community extends React.Component<CommunityProps, CommunityState> {
     
     componentWillMount() {
         this.props.fetchPost(this.props.user);
-      }
+    }
     
     handleFetchPost() {
         console.log(this.state);

@@ -1,5 +1,6 @@
 .user-setting-pane-box {
     margin: 20px 10%;
+    overflow: auto;
 }
 
 .user-setting-pane-title {
@@ -9,4 +10,8 @@
 .user-setting-pane-table {
     justify-content: center;
     padding: 20px 0px 0px 0px;
+}
+
+.user-setting-submit-btn {
+    margin: 10px 0px 20px 0px !important;
 }

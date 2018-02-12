@@ -46,3 +46,24 @@ export function changeCenterDimmed(dimmed: boolean)  {
         payload: dimmed
     };
 }
+
+export function changeMainLoad(load: boolean)  {
+    return {
+        type: 'CHANGE_MAIN_LOAD',
+        payload: load
+    };
+}
+
+export function changeTAccountPane(panel: string, load: boolean) {
+    return {
+        type: `CHANGE_TACCOUNTPANE${panel}`,
+        payload: load
+    };
+}
+
+export function changeTPositionPane(panel: string, load: boolean) {
+    return {
+        type: `CHANGE_TPOSITIONPANE${panel}`,
+        payload: load
+    };
+}

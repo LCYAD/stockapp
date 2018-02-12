@@ -26,6 +26,13 @@ export function getUserSetting() {
     }
 }
 
+export function updateUserSetting(input: Object) {
+    return {
+        type: "UPDATE_USER_SETTING",
+        payload: input
+    }
+}
+
 export function igTokenValidity(result: boolean) {
     return {
         type: "IG_TOKEN_VALIDITY",

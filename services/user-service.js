@@ -46,6 +46,12 @@ class UserService {
             id: userID
         }).limit(1).update('panel_setting', JSON.stringify(new_panel_setting), ['panel_setting']);
     }
+
+    updateUserSetting(userID, new_user_setting) {
+        return this.knex('users').where({
+            id: userID
+        }).limit(1).update('user_setting', new_user_setting, ['user_setting']);
+    }
 }
 
 module.exports = UserService;
