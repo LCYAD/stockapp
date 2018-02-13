@@ -1,7 +1,7 @@
 #panel-grid {
     text-align: center;
     display: grid;
-    grid-template-rows: 40% 30% 30%;
+    grid-template-rows: 40% 40% 20%;
     height: 95vh;
 }
 

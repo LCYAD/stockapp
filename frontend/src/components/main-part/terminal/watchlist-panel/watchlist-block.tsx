@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { ActionInstruTrigger } from '../../../../actions/watchlistAction';
 import { ActionFetchChartData, ActionFetchNews } from '../../../../actions/newsAction';
 
-interface WatchListBlockProps { 
+interface WatchListBlockProps {
     instru: any[];
     instruTrigger: any;
     fetchChartData: any;
@@ -15,30 +15,30 @@ interface WatchListBlockState { }
 
 class WatchListBlock extends React.Component<WatchListBlockProps, WatchListBlockState> {
 
-  constructor(props: WatchListBlockProps) {
-    super(props);
-  }
+    constructor(props: WatchListBlockProps) {
+        super(props);
+    }
 
-  buttonInstruTrigger = () => {
-    this.props.fetchChartData(this.props.instru);
-    console.log(this.props);
-    this.props.fetchNews(this.props.instru);
-  }
+    buttonInstruTrigger = () => {
+        this.props.fetchChartData(this.props.instru);
+        console.log(this.props);
+        this.props.fetchNews(this.props.instru);
+    }
 
-  render() {
-    return (
-      <div>
-         <button onClick={this.buttonInstruTrigger}> {this.props.instru} </button> 
-         <p> &emsp; Ticker space </p>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <div>
+                <button onClick={this.buttonInstruTrigger}> {this.props.instru} </button>
+                <p> &emsp; Ticker space </p>
+            </div>
+        );
+    }
 }
 
 const mapStateToProps = (state: any, props: any) => {
     return {
-      ...state
-    };    
+        ...state
+    };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
@@ -54,5 +54,5 @@ const mapDispatchToProps = (dispatch: any) => {
         },
     };
 };
-  
+
 export default connect(mapStateToProps, mapDispatchToProps)(WatchListBlock);

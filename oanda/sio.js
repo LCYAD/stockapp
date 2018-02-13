@@ -26,23 +26,23 @@ module.exports.receiveIO  = (io) => {
         //     });
         // })
         
-        //////Test simulator:
+        // //////Test simulator:
         // setInterval(function() {
         //     var random = (Math.random() * (0.020 - (-0.0200)) + (-0.0200));
         //     data = {"type":"PRICE","time": new Date(new Date(data['time']).getTime()+6000) ,"bids":[{"price": parseFloat(data['bids'][0]['price'])+random ,"liquidity":10000000}],"asks":[{"price":"1.22566","liquidity":10000000}],"closeoutBid":"1.22443","closeoutAsk":"1.22581","status":"non-tradeable","tradeable":false,"instrument":"GBP_USD"}
-        //    // console.log(data); 
+        //     console.log(data); 
         //     sio.emit('ticks', JSON.stringify(data));
         //     data2 = {"type":"PRICE","time": new Date(new Date(data['time']).getTime()+6000) ,"bids":[{"price": parseFloat(data['bids'][0]['price'])+random ,"liquidity":10000000}],"asks":[{"price":"1.22566","liquidity":10000000}],"closeoutBid":"1.22443","closeoutAsk":"1.22581","status":"non-tradeable","tradeable":false,"instrument":"EUR_USD"}
-        //     //console.log(data2);
+        //     console.log(data2);
         //     sio.emit('ticks', JSON.stringify(data2));
         // }, 6000)
-        /////////
+        // /////////
 
     });
 }
 
-module.exports.emitTick = (data) =>{
-   // console.log(data);
+module.exports.emitTick = (data, instru) =>{
+    // console.log(data);
 
-    sio.emit('ticks', data);
+   sio.emit('ticks', data);
 }

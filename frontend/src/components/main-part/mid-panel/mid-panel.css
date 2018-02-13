@@ -3,6 +3,11 @@
     background: rgba(36, 34, 34, 0.8) !important;
 }
 
+.main-panel-segment{
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
 .main-leftsidebar1 {
     height: 95vh;
     background: rgb(167, 160, 160);

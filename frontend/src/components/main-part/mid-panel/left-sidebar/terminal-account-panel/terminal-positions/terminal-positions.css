@@ -1,0 +1,8 @@
+#terminal-position-container {
+    height: 85vh !important;
+}
+
+.terminal-position-tab-pane {
+    height: 70vh !important;
+    overflow: auto;
+}

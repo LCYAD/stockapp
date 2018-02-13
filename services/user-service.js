@@ -29,7 +29,7 @@ class UserService {
                 3: 'none'
             }),
             user_setting: JSON.stringify({currency: '', balance: '', leverage: '', beta_low: '', beta_high: ''}),
-            watchlist: JSON.stringify({}),
+            watchlist: JSON.stringify({name: 'watchlist1', instru: []}),
             igtoken: '',
             oandatoken: '',
         }).into('users').returning('id');
@@ -45,6 +45,19 @@ class UserService {
         return this.knex('users').where({
             id: userID
         }).limit(1).update('panel_setting', JSON.stringify(new_panel_setting), ['panel_setting']);
+    }
+
+    updateUserSetting(userID, new_user_setting) {
+        return this.knex('users').where({
+            id: userID
+        }).limit(1).update('user_setting', new_user_setting, ['user_setting']);
+    }
+
+    updateWatchList(userID, updated_watchlist) {
+        console.log('updating watchlist');
+        return this.knex('users').where({
+            id: userID
+        }).limit(1).update('watchlist', updated_watchlist, ['watchlist']);
     }
 }
 

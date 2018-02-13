@@ -51,17 +51,19 @@ const app = express();
 const http = require('http').Server(app);
 //const https    = require('https');
 const io = require('socket.io')(http);
+
 // socket IO ======================================================================
 require('./oanda/sio.js').receiveIO(io); // passing io sockets to module
 // Oanda API ======================================================================
+
 const oanda = require('./oanda/oanda.js');
 oanda.requestData();
 
-// io.on('connection', (socket)=>{
-//     console.log('A user has connected to the socket');
-// });
+io.on('connection', (socket)=>{
+    console.log('A user has connected to the socket');
+});
 
-//middleware setting
+// middleware setting
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -77,7 +79,7 @@ var allowCrossDomain = function(req, res, next) {
 
 app.use(allowCrossDomain);  
 
-//Routing
+// Routing
 app.use('/api/login', new LoginRoutes(userService).router());
 app.use('/api/user', new UserRoutes(userService).router());
 app.use('/api/post', new PostRoutes(userService).router());
@@ -108,10 +110,6 @@ app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error');
 });
-
-
-// const server = require('http').Server(app);
-// const io = require('socket.io')(server);
 
 http.listen(8080);
 

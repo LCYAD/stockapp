@@ -8,6 +8,9 @@ import { connect } from 'react-redux';
 // import actions
 import { closeComponent } from '../../../../actions/TpanelSettingAction';
 
+// import components
+import SearchBar from './search-bar/search-bar';
+
 interface PanelMenuBarProps {
     closeComponent: Function;
     panel: number;
@@ -23,7 +26,7 @@ class PanelMenuBar extends React.Component<PanelMenuBarProps, PanelMenuBarState>
     }
 
     handleCloseComponent() {
-        let response = confirm("Are you sure?");
+        let response = confirm("Are you sure you want to close this panel?");
         if (response){
             this.props.closeComponent(this.props.panel);
         }
@@ -32,15 +35,18 @@ class PanelMenuBar extends React.Component<PanelMenuBarProps, PanelMenuBarState>
     render() {
         return (
             <div className="panel-menu-bar">
-                <Button.Group
-                    basic={true}
-                    size="mini"
-                >
-                    <Button
-                        icon="window close"
-                        onClick={this.handleCloseComponent}
-                    />
-                </Button.Group>
+                <SearchBar />
+                <div className="panel-close-btn">
+                    <Button.Group
+                        basic={true}
+                        size="mini"
+                    >
+                        <Button
+                            icon="window close"
+                            onClick={this.handleCloseComponent}
+                        />
+                    </Button.Group>
+                </div>
             </div>
         );
     }
@@ -57,10 +63,6 @@ const mapDispatchToProps = (dispatch: any) => {
         closeComponent: (panelnum: number) => {
             dispatch(closeComponent(panelnum));
         },
-        //   sendSuccessMsg: (title: string, message: string) => {
-        //     dispatch(successMsg(title, message));
-        //     setTimeout(() => { dispatch(hideMsg()); }, 3000);
-        //   }
     };
 };
 

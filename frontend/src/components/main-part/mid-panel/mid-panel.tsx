@@ -18,6 +18,7 @@ interface MidPanelProps {
   rightShow: boolean;
   leftLoadClass: string;
   centerDimmed: boolean;
+  mainLoad: boolean;
   history: any;
   location: any;
   match: {
@@ -46,7 +47,10 @@ class MidPanel extends React.Component<MidPanelProps, MidPanelState> {
 
   render() {
     return (
-      <div>
+      <Segment
+        loading={this.props.mainLoad}
+        className='main-panel-segment'
+      >
         <Sidebar.Pushable as={Segment}>
           <Sidebar
             animation="overlay"
@@ -94,7 +98,7 @@ class MidPanel extends React.Component<MidPanelProps, MidPanelState> {
             </Switch>
           </Sidebar.Pusher>
         </Sidebar.Pushable>
-      </div>
+      </Segment>
     );
   }
 } // End MidPanel Class
@@ -105,6 +109,7 @@ const mapStateToProps = (state: any) => {
     rightShow: state.panelToggle.rightShow,
     leftLoadClass: state.panelToggle.leftLoadClass,
     centerDimmed: state.panelToggle.centerDimmed,
+    mainLoad: state.panelToggle.mainLoad,
   };
 };
 

@@ -4,6 +4,11 @@ interface ReducerState {
     leftLoadType: string;
     leftLoadClass: string;
     centerDimmed: boolean;
+    mainLoad: boolean;
+    TAccountPane1: boolean;
+    TAccountPane2: boolean;
+    TPositionPane1: boolean;
+    TPositionPane2: boolean;
 }
 
 interface ReducerAction {
@@ -17,6 +22,11 @@ const InitState = {
     leftLoadType: 'account',
     leftLoadClass: 'main-leftsidebar1',
     centerDimmed: false,
+    mainLoad: false,
+    TAccountPane1: false,
+    TAccountPane2: false,
+    TPositionPane1: false,
+    TPositionPane2: false,
 };
 
 export default function reducer(state: ReducerState = InitState, action: ReducerAction) {
@@ -42,6 +52,21 @@ export default function reducer(state: ReducerState = InitState, action: Reducer
         
         case 'CHANGE_DIMMED':
             return {...state, centerDimmed: action.payload};
+
+        case 'CHANGE_MAIN_LOAD':
+            return {...state, mainLoad: action.payload};
+
+        case 'CHANGE_TACCOUNTPANE1':
+            return {...state, TAccountPane1: action.payload};
+        
+        case 'CHANGE_TACCOUNTPANE2':
+            return {...state, TAccountPane2: action.payload};
+        
+        case 'CHANGE_TPOSITIONPANE1':
+            return {...state, TPositionPane1: action.payload};
+
+        case 'CHANGE_TPOSITIONPANE2':
+            return {...state, TPositionPane2: action.payload};
 
         default:
             return state;

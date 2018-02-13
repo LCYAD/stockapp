@@ -1,53 +1,56 @@
 import * as React from 'react';
 import './watchlist-panel.css';
 
-interface WatchListPanelProps { 
-    panel: string;
-    watchlistInstru: string[];
+import { connect } from 'react-redux';
+
+// import WatchlistList from './watchlist-list';
+import WatchlistBlock from './watchlist-block';
+
+// import components
+import PanelMenuBar from '../panel-menu-bar/panel-menu-bar';
+import WatchListContent from './watchlist-content/watchlist-content';
+
+interface WatchListPanelProps {
+  panel: string;
+  watchlistInstru: string[];
 }
 
-interface WatchListPanelState {
-
- }
-
-import WatchlistList from './watchlist-list';
-import { connect } from 'react-redux';
-import WatchlistBlock from './watchlist-block';
+interface WatchListPanelState { }
 
 class WatchListPanel extends React.Component<WatchListPanelProps, WatchListPanelState> {
 
-  showBlock = () => {
-      if (this.props.watchlistInstru) {
-        console.log(this.props)
-              return this.props.watchlistInstru.map((instru: any) => {
-                  return (
-                      <div key={instru}>
-                          <WatchlistBlock instru={instru}/>
-                      </div>
-                  );
-                  });
-          }
-          else return (<div/>);
-  }
-
   constructor(props: WatchListPanelProps) {
     super(props);
+    this.showBlock = this.showBlock.bind(this);
+  }
+
+  showBlock() {
+    if (this.props.watchlistInstru) {
+      return this.props.watchlistInstru.map((instru: any) => {
+        return (
+          <div key={instru}>
+            <WatchlistBlock instru={instru} />
+          </div>
+        );
+      });
+    }
+    else return (<div />);
   }
 
   render() {
     return (
       <div>
-        <WatchlistList panel={this.props.panel}/>
-          {this.showBlock()}
+        <PanelMenuBar panel={this.props.panel} />
+        <WatchListContent />
       </div>
     );
   }
 }
 
 const mapStateToProps = (state: any, props: any) => {
-  console.log(state);
+  // console.log(state);
   return {
-      watchlistInstru: state.watchlistReducer.watchlistInstru,
+    watchlistInstru: state.watchlistReducer.watchlistInstru,
   };
 };
 

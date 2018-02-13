@@ -26,6 +26,7 @@ interface MainPartProps {
   checkOandaBrokerToken: Function;
   fetchFollowing: Function;
   user?:any;
+  mainLoading: Function;
 }
 
 // import List from '../news/list';
@@ -34,6 +35,8 @@ interface MainPartProps {
 
 // import { ActionFetchNews } from '../../actions/newsAction';
 import { getUserSetting, oandaTokenValidity, ActionGetFollowing } from '../../actions/userAction';
+import { changeMainLoad } from '../../actions/panelToggleAction';
+import { getAccounts } from '../../actions/brokerOandaAction';
 
 interface MainPartProps { 
   getUserSetting: Function;
@@ -48,6 +51,7 @@ class MainPart extends React.Component<MainPartProps, MainPartState> {
   }
 
   componentWillMount() {
+    this.props.mainLoading(true);
     this.props.getUserSetting().then(()=>{
       if (this.props.igtoken) {
         this.props.checkIGBrokerToken(this.props.igtoken);
@@ -59,11 +63,11 @@ class MainPart extends React.Component<MainPartProps, MainPartState> {
         console.log('getfollowing')
         this.props.fetchFollowing({email:this.props.user});
       }
+      setTimeout(()=>{this.props.mainLoading(false)}, 1500);
     }); 
   }
 
   render() {
-    console.log(this.props)
     return (
       <div id="main-part">
         <div id="left-panel">
@@ -106,10 +110,14 @@ const mapDispatchToProps = (dispatch: any) =>{
       }).then((res)=>{
         console.log(res);
         dispatch(oandaTokenValidity(true));
+        dispatch(getAccounts(res.data.accounts));
       }).catch((err)=>{
         console.log(err);
         dispatch(oandaTokenValidity(false));
       });
+    },
+    mainLoading: (loading: boolean) =>{
+      dispatch(changeMainLoad(loading));
     },
   };
 }

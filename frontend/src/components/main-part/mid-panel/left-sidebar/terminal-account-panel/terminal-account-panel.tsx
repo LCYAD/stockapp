@@ -3,7 +3,17 @@ import './terminal-account-panel.css';
 
 import { Tab } from 'semantic-ui-react';
 
-interface TerminalAccountPanelProps { }
+import { connect } from 'react-redux';
+
+// import components
+import TerminalAccountsDetail from './terminal-accounts-detail/terminal-accounts-detail';
+import TerminalPositions from './terminal-positions/terminal-positions';
+
+
+interface TerminalAccountPanelProps { 
+    TAccountPane1: boolean;
+    TAccountPane2: boolean;
+}
 
 interface TerminalAccountPanelState { }
 
@@ -16,8 +26,9 @@ class TerminalAccountPanel extends React.Component<TerminalAccountPanelProps, Te
                     <Tab.Pane 
                         attached={false}
                         className="terminal-account-tab-pane"
+                        loading={this.props.TAccountPane1}
                     >
-                        Tab 1 Content
+                        <TerminalAccountsDetail />
                     </Tab.Pane>
                     )},
             { menuItem: 'Position & Trade', 
@@ -25,11 +36,13 @@ class TerminalAccountPanel extends React.Component<TerminalAccountPanelProps, Te
                     <Tab.Pane 
                         attached={false}
                         className="terminal-account-tab-pane"
+                        loading={this.props.TAccountPane2}
                     >
-                        Tab 2 Content
+                        <TerminalPositions />
                     </Tab.Pane>
                     )},
         ];
+
         return (
             <div id="terminal-account-panel-container">
                 <Tab
@@ -42,4 +55,18 @@ class TerminalAccountPanel extends React.Component<TerminalAccountPanelProps, Te
     }
 } // End TerminalAccountPanel Class
 
-export default TerminalAccountPanel;
+
+const mapStatetoProps = (state: any, props: any) => {
+    return {
+        ...props,
+        TAccountPane1: state.panelToggle.TAccountPane1,
+        TAccountPane2: state.panelToggle.TAccountPane2
+    };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+    };
+};
+
+export default connect(mapStatetoProps, mapDispatchToProps)(TerminalAccountPanel);
