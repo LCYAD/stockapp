@@ -250,7 +250,7 @@ class LeftPanel extends React.Component<LeftPanelProps, LeftPanelState> {
                     <Divider 
                         inverted={true} 
                     />
-                    <div className="left-link-btn">
+                    {/* <div className="left-link-btn">
                         <Button
                             animated={true}
                             inverted={true}
@@ -271,7 +271,7 @@ class LeftPanel extends React.Component<LeftPanelProps, LeftPanelState> {
                                 Message
                             </Button.Content>
                         </Button>
-                    </div>
+                    </div> */}
                     <div className="left-link-btn">
                         <Button
                             animated={true}

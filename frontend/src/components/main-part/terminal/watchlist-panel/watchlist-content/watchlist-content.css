@@ -1,0 +1,5 @@
+.watchlist-content-box {
+    margin-top: 20px;
+    overflow: auto !important;
+    height: 220px;
+}

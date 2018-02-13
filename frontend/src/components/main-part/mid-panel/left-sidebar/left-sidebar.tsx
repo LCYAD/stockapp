@@ -21,7 +21,7 @@ class LeftSidebar extends React.Component<LeftSidebarProps, LeftSidebarState> {
     }
 
     loadLeftPanel() {
-        console.log(this.props.leftLoadType);
+        // console.log(this.props.leftLoadType);
         if (this.props.leftLoadType === 'terminal-account') {
             return (
                 <TerminalAccountPanel />

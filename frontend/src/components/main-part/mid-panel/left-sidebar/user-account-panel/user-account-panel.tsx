@@ -43,14 +43,14 @@ class UserAccountPanel extends React.Component<UserAccountPanelProps, UserAccoun
                     >
                         <BrokersPane/>
                     </Tab.Pane>) },
-            { menuItem: 'Consolidated Pos.', 
-                render: () => 
-                    <Tab.Pane 
-                        attached={false}
-                        className="user-account-tab-pane"
-                    >
-                        Tab 3 Content
-                    </Tab.Pane> },
+            // { menuItem: 'Consolidated Pos.', 
+            //     render: () => 
+            //         <Tab.Pane 
+            //             attached={false}
+            //             className="user-account-tab-pane"
+            //         >
+            //             Tab 3 Content
+            //         </Tab.Pane> },
         ];
         return (
             <div id="terminal-account-panel-container">

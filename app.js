@@ -46,11 +46,11 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
 // socket IO ======================================================================
-// require('./oanda/sio.js').receiveIO(io); // passing io sockets to module
+require('./oanda/sio.js').receiveIO(io); // passing io sockets to module
 // Oanda API ======================================================================
 
-// const oanda = require('./oanda/oanda.js');
-// oanda.requestData();
+const oanda = require('./oanda/oanda.js');
+oanda.requestData();
 
 io.on('connection', (socket)=>{
     console.log('A user has connected to the socket');

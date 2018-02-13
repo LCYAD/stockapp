@@ -6,7 +6,10 @@ interface ReducerState {
         2: string;
         3: string;
     };
-    watchlist: Object;
+    watchlist: {
+        name: string;
+        instru: string[];
+    };
     user_setting: {
         currency: string;
         balance: string;
@@ -18,6 +21,7 @@ interface ReducerState {
     igvalid: boolean;
     oandatoken: string;
     oandavalid: boolean;
+    viewCurrentWatchList: string;
 }
 
 interface ReducerAction {
@@ -38,7 +42,10 @@ const getInitState = () => {
             2: 'none',
             3: 'none'
         },
-        watchlist: {},
+        watchlist: {
+            name:'', 
+            instru: []
+        },
         user_setting: {
             currency: '',
             balance: '',
@@ -49,7 +56,8 @@ const getInitState = () => {
         igtoken: '',
         igvalid: false,
         oandatoken: '',
-        oandavalid: false
+        oandavalid: false,
+        viewCurrentWatchList: ''
     });
 };
 
@@ -71,7 +79,8 @@ export default function reducer(state: ReducerState = getInitState(), action: Re
                         user_setting: action.payload.data[0].user_setting,
                         watchlist: action.payload.data[0].watchlist,
                         igtoken: action.payload.data[0].igtoken,
-                        oandatoken: action.payload.data[0].oandatoken
+                        oandatoken: action.payload.data[0].oandatoken,
+                        viewCurrentWatchList: action.payload.data[0].watchlist.name,
                     };
         
         case 'GET_USER_SETTING_REJECTED':
@@ -130,6 +139,9 @@ export default function reducer(state: ReducerState = getInitState(), action: Re
 
         case 'CHANGE_OANDA_KEY':
             return {...state, oandatoken: action.payload};
+
+        case 'UPDATE_WATCHLIST':
+            return {...state, watchlist: action.payload};
 
         default:
             return state;

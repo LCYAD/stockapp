@@ -11,3 +11,10 @@ export function ActionInstruTrigger(instru: string) {
         payload: instru,
     };
 }
+
+export function updateWatchList(instru: string) {
+    return {
+        type: "UPDATE_WATCHLIST",
+        payload: instru
+    }
+}

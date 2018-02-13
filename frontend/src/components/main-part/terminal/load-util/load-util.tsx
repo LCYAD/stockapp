@@ -29,11 +29,11 @@ class LoadUtil extends React.Component<LoadUtilProps, LoadUtilState> {
     loadFunction() {
         if (this.props.panelStatus[this.props.panel] === 'news') {
             return (
-                <NewsPanel panel={this.props.panel}/>
+                <NewsPanel panel={this.props.panel} />
             );
         } else if (this.props.panelStatus[this.props.panel] === 'watchlist') {
             return (
-                <WatchListPanel panel={this.props.panel}/>
+                <WatchListPanel panel={this.props.panel} />
             );
         } else if (this.props.panelStatus[this.props.panel] === 'chart') {
             return (

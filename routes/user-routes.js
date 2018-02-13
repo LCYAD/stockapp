@@ -15,7 +15,8 @@ class UserRoutes {
         let router = express.Router();
         router.get('/', auth.authenticate(), this.retreive.bind(this));
         router.post('/panel/', auth.authenticate(), this.panelSetting.bind(this));
-        router.post('/setting/', auth.authenticate(), this.userSetting.bind(this))
+        router.post('/setting/', auth.authenticate(), this.userSetting.bind(this));
+        router.post('/watchlist/', auth.authenticate(), this.updateWatchlist.bind(this));
         return router;
     }
 
@@ -57,6 +58,16 @@ class UserRoutes {
         return this.userService.updateUserSetting(req.user.id, req.body.user_setting).then((updated_user_setting) => {
             console.log(updated_user_setting);
             res.json(updated_user_setting);
+        }).catch((err) => {
+            res.sendStatus(401);
+        });
+    }
+
+    updateWatchlist(req, res) {
+        // console.log(req.body.watchlist);
+        return this.userService.updateWatchList(req.user.id, req.body.watchlist).then((updated_watchlist) => {
+            console.log(updated_watchlist);
+            res.json(updated_watchlist);
         }).catch((err) => {
             res.sendStatus(401);
         });

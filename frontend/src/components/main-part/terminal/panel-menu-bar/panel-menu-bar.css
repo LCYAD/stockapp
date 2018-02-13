@@ -1,4 +1,11 @@
-.panel-menu-bar{
-    float: right;
+.panel-close-btn{
+    justify-self: end;
+    padding-right: 10px;
+}
+
+.panel-menu-bar {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 70% 30%;
     margin: 5px;
 }
