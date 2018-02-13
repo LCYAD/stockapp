@@ -38,7 +38,9 @@ class GetPostRoutes {
             //     }
             // )
 
-            knex.select("*").from("post").where({"email" : req.body.email})
+            //array:
+            //req.body.follow 
+            knex.select("*").from("post").where({"email" : req.body.user, following: req.body.user})
                 .then(function (values) {
                 res.json(values)
                 // No need to check err object as this function will 

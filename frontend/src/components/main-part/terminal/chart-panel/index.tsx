@@ -143,7 +143,7 @@ class ChartComponent extends React.Component<ChartProps> {
                     </Header>
                     <div>
                     <i className="calendar icon"/>
-                    <Dropdown onChange={(e,data: any) => this.granularityChange(data.value)} floating placeholder='Select the granularity' options={granuOptions}/>
+                    <Dropdown style = {{zIndex: 3, position: 'relative'}} onChange={(e,data: any) => this.granularityChange(data.value)} floating placeholder='Select the granularity' options={granuOptions}/>
                     </div>
                     {/* <Button.Group basic size='mini'>
                         <Button onClick={() => this.granularityChange('S30')} style={buttonStyle} active={this.state.activeS30}> S30 </Button>

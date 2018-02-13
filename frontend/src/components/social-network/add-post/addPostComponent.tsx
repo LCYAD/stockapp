@@ -1,5 +1,5 @@
 import * as React from 'react'; 
-import { Button, Modal } from 'semantic-ui-react';
+import { Button, Modal, Icon } from 'semantic-ui-react';
 import axios from 'axios';
 import { connect } from 'react-redux'; 
 import { ActionFetchPost } from '../../../actions/newsAction';
@@ -30,6 +30,7 @@ var buttonStyle = {
 interface AddPostProps { 
     user: any;
     fetchPost: any;
+    post? :any;
   }
 
 class AddPostComponent extends React.Component<AddPostProps, any> {
@@ -64,27 +65,28 @@ class AddPostComponent extends React.Component<AddPostProps, any> {
             let promises = [];
 
             if (this.state.file.length > 0) {
-                const formData = new FormData();
+                console.log(this.state.file);
                 for (var i=0; i< this.state.file.length; i++) {
+                    const formData = new FormData();
                     formData.append("file", this.state.file[i]);
                     //formData.append("tags", `codeinfuse, medium, gist`);
                     formData.append("upload_preset", "idzxgzjw"); // Replace the preset name with your own
                     formData.append("api_key", "573954122199244"); // Replace API key with your own Cloudinary key
                     formData.append("timestamp", Date.now().toString());
+                    console.log(formData);
                     promises.push(axios.post("https://api.cloudinary.com/v1_1/codeinfuse/image/upload", formData, {
                         headers: { "X-Requested-With": "XMLHttpRequest" },
                         }));
                 }
-
                 axios.all(promises)
                     .then(axios.spread((...args) => {
                         //console.log(args);
                         var data: any[] = [];
                         var fileURL: any[] = [];
                         for (let i = 0; i < args.length; i++) {
-                            //data.push(args[i].data);
+                            data.push(args[i].data);
                             fileURL.push(args[i].data.secure_url); // You should store this URL for future references in your app
-                            console.log(data);
+                            console.log(args[i]);
                             console.log(fileURL);
                             //myObject[args[i].config.params.saveLocation] = args[i].data;
                         }
@@ -92,12 +94,21 @@ class AddPostComponent extends React.Component<AddPostProps, any> {
                             imageURL: [...this.state.imageURL, fileURL],
                             // open: false
                         }, () => {
+
+                            console.log(this.props.user);
+                            if (this.props.user.name == 'undefined') {
+                                var name = this.props.user.email;
+                            } else {
+                                var name = this.props.user.name
+                            }
+                            
                             var postData = {
-                                name : this.props.user.username,
+                                name : name,
                                 email : this.props.user.email,
                                 date: Date.now(),
                                 msg: this.state.msg,
-                                img : this.state.imageURL[0]
+                                img : this.state.imageURL[0],
+                                comment: ''
                             };
                             console.log(this.props);
                             console.log(postData);
@@ -153,12 +164,20 @@ class AddPostComponent extends React.Component<AddPostProps, any> {
                 // });
 
             } else {
+
+                if (this.props.user.username == 'undefined') {
+                    var name = this.props.user.email;
+                } else {
+                    var name = this.props.user.username
+                }
+
                 var postData = {
-                    name : this.props.user.username,
+                    name : name,
                     email : this.props.user.email,
                     date: Date.now(),
                     msg: this.state.msg,
-                    img : []
+                    img : [],
+                    comment: ''
                 };
                 console.log(postData);
                 axios.post("http://localhost:8080/api/post", postData
@@ -168,6 +187,7 @@ class AddPostComponent extends React.Component<AddPostProps, any> {
                         //     }
                     ).then((response:any) => { 
                         console.log(response);
+                        this.props.fetchPost(this.props.user);
                         this.setState({ open: false })
                     }) 
                     .catch((error)=> console.log(error));     
@@ -216,7 +236,9 @@ class AddPostComponent extends React.Component<AddPostProps, any> {
         }
         return (
             <div>
-                <Button onClick={this.show('small')}>New Post</Button>
+                <Button onClick={this.show('small')}>
+                    <Icon name='write square'/>New Post
+                </Button>
                 <Modal size={'small'} open={open} onClose={this.close}>
                     <Modal.Header>
                         Create your Post

@@ -5,3 +5,8 @@ a.fill-div {
     text-decoration: none;
     color: grey;
 }
+
+#news-panel-box{
+    overflow: scroll;
+    padding:  20px;
+}

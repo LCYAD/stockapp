@@ -55,8 +55,38 @@ const getInitState = () => {
 
 export default function reducer(state: ReducerState = getInitState(), action: ReducerAction) {
     switch (action.type) {
+
+        case 'GET_FOLLOWING_PENDING':
+            return {...state};
+
+        case 'GET_FOLLOWING_REJECTED':
+            return {...state};
+
+        case 'GET_FOLLOWING_FULFILLED':
+        console.log(action.payload)
+            return {...state, following: action.payload };
+
+        case 'ADD_FOLLOWING_PENDING':
+            return {...state};
+
+        case 'ADD_FOLLOWING_REJECTED':
+            return {...state};
+
+        case 'ADD_FOLLOWING_FULFILLED':
+            return {...state, following: action.payload };
+
         case 'ADD_TOKEN':
             return { ...state, token: action.payload, isLoggedIn: true };
+
+        case 'ADD_EMAIL':
+            return { ...state, email: action.payload };
+
+        case 'ADD_LOADFOLLOWING':
+            return { ...state, following: action.payload };    
+
+        case 'ADD_NAME':
+        console.log(action)
+            return { ...state, name: action.payload };
 
         case 'REMOVE_TOKEN':
             return { ...state, token: action.payload, isLoggedIn: false };
@@ -65,13 +95,14 @@ export default function reducer(state: ReducerState = getInitState(), action: Re
             return state;
         
         case 'GET_USER_SETTING_FULFILLED':
-            // console.log(action.payload);
+             console.log(action.payload);
             return  {   ...state, 
                         panelStatus:action.payload.data[0].panel_setting,
                         user_setting: action.payload.data[0].user_setting,
                         watchlist: action.payload.data[0].watchlist,
                         igtoken: action.payload.data[0].igtoken,
-                        oandatoken: action.payload.data[0].oandatoken
+                        oandatoken: action.payload.data[0].oandatoken,
+                        email: action.payload.data[0].email
                     };
         
         case 'GET_USER_SETTING_REJECTED':

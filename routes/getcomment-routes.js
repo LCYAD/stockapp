@@ -14,7 +14,7 @@ const knex = require('knex')({
     }
 });
 
-class GetPostRoutes {
+class GetCommentRoutes {
     constructor(userService){
         this.userService = userService;
     }
@@ -30,15 +30,9 @@ class GetPostRoutes {
         this.userService.getUser('local', req.body.email)
         .then(()=>{
             //console.log(req);
-            console.log("get post~~");
-            // }).then(function () {
-            //         return knex("payment_paypal_status").insert([
-            //             {name: "A", description: "A"},
-            //         ]);
-            //     }
-            // )
+            console.log("get comment~~");
 
-            knex.select("*").from("post").where({"email" : req.body.email})
+            knex.select("*").from("post").where({"date" : req.body.postId})
                 .then(function (values) {
                 res.json(values)
                 // No need to check err object as this function will 
@@ -52,17 +46,8 @@ class GetPostRoutes {
                 //knex.destroy();
               });
 
-            // knex.insert(req.body).into("post").then(function (id) {
-            //     console.log(id);
-            //     res.json({res:'Post are received.'});
-            // })
-            // .finally(function() {
-            //     knex.destroy();
-            // });
-
-            //res.json({res:'Post is Sent.'});
     })
     }
  }
 
-module.exports = GetPostRoutes;
+module.exports = GetCommentRoutes;

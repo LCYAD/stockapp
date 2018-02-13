@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Segment } from 'semantic-ui-react';
-import '../news-panel/news-panel.css';
+import './news-panel.css';
 //import {connect} from 'react-redux';
 
 interface NewsProps {

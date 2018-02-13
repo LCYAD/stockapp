@@ -26,6 +26,7 @@ class TopBar extends React.Component<TopBarProps, TopBarState> {
   logOut() {
     this.props.removeToken();
     this.props.sendSuccessMsg('Log Out Successful!', 'See you again!');
+    window.localStorage.clear();
   }
 
   render() {

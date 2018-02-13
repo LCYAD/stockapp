@@ -90,6 +90,7 @@ class MidPanel extends React.Component<MidPanelProps, MidPanelState> {
                 path={`${this.props.match.path}/community`}
                 component={Community}
               />
+              {/* <Route component={() => <div />} /> */}
             </Switch>
           </Sidebar.Pusher>
         </Sidebar.Pushable>

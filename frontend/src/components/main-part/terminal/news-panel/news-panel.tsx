@@ -35,7 +35,7 @@ class NewsPanel extends React.Component<NewsPanelProps, NewsPanelState> {
                 );
             });
         }
-        else return (<div> </div>);
+        else return <div/>;
   }
 
   render() {
@@ -50,7 +50,7 @@ class NewsPanel extends React.Component<NewsPanelProps, NewsPanelState> {
     )}
 
     return (
-        <div>
+        <div id="news-panel-box">
           <div style = {{zIndex: 99, position: 'relative'}}>
             <PanelMenuBar panel={this.props.panel}/>
           </div>

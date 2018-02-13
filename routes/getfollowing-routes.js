@@ -28,19 +28,13 @@ class GetPostRoutes {
     local(req,res){
         //console.log(req);
         this.userService.getUser('local', req.body.email)
-        .then(()=>{
-            //console.log(req);
-            console.log("get post~~");
-            // }).then(function () {
-            //         return knex("payment_paypal_status").insert([
-            //             {name: "A", description: "A"},
-            //         ]);
-            //     }
-            // )
-
-            knex.select("*").from("post").where({"email" : req.body.email})
+            console.log(req);
+            console.log(req.body);
+            knex.select("*").from("users").where({'email': req.body.email})
                 .then(function (values) {
-                res.json(values)
+                    var following = values[0].following.replace(/"/g,'').split(',');
+                    console.log(following);
+                res.json(following);
                 // No need to check err object as this function will 
                 // only be executed only when it is a success.
                 console.log(values);
@@ -51,18 +45,9 @@ class GetPostRoutes {
                 // To close the connection pool
                 //knex.destroy();
               });
-
-            // knex.insert(req.body).into("post").then(function (id) {
-            //     console.log(id);
-            //     res.json({res:'Post are received.'});
-            // })
-            // .finally(function() {
-            //     knex.destroy();
-            // });
-
-            //res.json({res:'Post is Sent.'});
-    })
+    
     }
  }
+
 
 module.exports = GetPostRoutes;

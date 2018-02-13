@@ -7,6 +7,7 @@ exports.up = function(knex, Promise) {
         table.string('date');
         table.string('msg');
         table.string('img');
+        table.string('comment');
     });
 };
 

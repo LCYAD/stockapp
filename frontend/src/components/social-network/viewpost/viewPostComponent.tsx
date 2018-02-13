@@ -1,73 +1,89 @@
 import * as React from 'react'; 
 //import { Button, Modal } from 'semantic-ui-react';
-//import axios from 'axios';
+import axios from 'axios';
 import { connect } from 'react-redux'; 
 //import Post from '../post.model'
 import '../viewpost/viewPostComponent.css';
+import AddCommentComponent from '../add-comment/addCommentComponent';
+import ViewCommentComponent from '../viewCommentComponent';
+import { Icon } from 'semantic-ui-react';
+import { ActionFetchPost } from '../../../actions/newsAction';
+//import { Button } from 'semantic-ui-react';
 
 // React component for form inputs
 
 
-class CardInput extends React.Component<any,any> {
-  render() {
-    return(
-      <fieldset>
-        <input name={this.props.name} id={this.props.id} type={this.props.type || 'text'} placeholder={this.props.placeholder} required />
-      </fieldset>
-    )
-  }
-}
+// class CardInput extends React.Component<any,any> {
+//   render() {
+//     return(
+//       <fieldset>
+//         <input name={this.props.name} id={this.props.id} type={this.props.type || 'text'} placeholder={this.props.placeholder} required />
+//       </fieldset>
+//     )
+//   }
+// }
 
-// React component for textarea
-class CardTextarea extends React.Component<any,any> {
-  render() {
-    return(
-      <fieldset>
-        <textarea name={this.props.username} id={this.props.id} placeholder={this.props.placeholder} required ></textarea>
-      </fieldset>
-    )
-  }
-}
+// // React component for textarea
+// class CardTextarea extends React.Component<any,any> {
+//   render() {
+//     return(
+//       <fieldset>
+//         <textarea name={this.props.username} id={this.props.id} placeholder={this.props.placeholder} required ></textarea>
+//       </fieldset>
+//     )
+//   }
+// }
 
-// React component for form button
-class CardBtn extends React.Component<any,any> {
-  render() {
-    return(
-      <fieldset>
-        <button className={this.props.className} type={this.props.type} value={this.props.value}>{this.props.value}</button>
-      </fieldset>
-    )
-  }
-}
+// // React component for form button
+// class CardBtn extends React.Component<any,any> {
+//   render() {
+//     return(
+//      // <fieldset>
+//         <Button style={{float : 'right',marginBottom : '20px'}} className={this.props.className} type={this.props.type} value={this.props.value}>{this.props.value}</Button>
+//       //</fieldset>
+//     )
+//   }
+// }
 
-// React component for social profile links
-class CardProfileLinks extends React.Component<any,any> {
-  render() {
-    const profileLinks = ['twitter', 'linkedin', 'dribbble', 'facebook'];
+// // React component for social profile links
+// class CardProfileLinks extends React.Component<any,any> {
+//   render() {
+//     const profileLinks = ['twitter', 'linkedin', 'dribbble', 'facebook'];
     
-    const linksList = profileLinks.map((link, index) =>
-      <li key={index}><a href='#'><i className={'fa fa-' + link}></i></a></li>
-    );
+//     const linksList = profileLinks.map((link, index) =>
+//       <li key={index}><a href='#'><i className={'fa fa-' + link}></i></a></li>
+//     );
                                      
-    return(
-      <div className='card-social-links'>
-        <ul className='social-links'>
-          {linksList}
-        </ul>
-      </div>
-    )
-  }
-}
+//     return(
+//       <div className='card-social-links'>
+//         <ul className='social-links'>
+//           {linksList}
+//         </ul>
+//       </div>
+//     )
+//   }
+// }
 
 var commentStyle: React.CSSProperties = {
     position: 'fixed',
     //clear: 'both',
     float: 'right',
     color: 'grey',
-    marginTop: '10px',
+    marginTop: '30px',
     marginLeft: '90%',
     right: 'calc(0% + 18px)'
     //zIndex: 99
+}
+
+var deleteStyle: React.CSSProperties = {
+  position: 'fixed',
+  //clear: 'both',
+  float: 'right',
+  color: 'grey',
+  marginTop: '0px',
+  marginLeft: '100%',
+  right: 'calc(0% + 8px)'
+  //zIndex: 99
 }
 
 var scrollStyle: React.CSSProperties = {
@@ -101,7 +117,21 @@ var dateStyle = {
     color: "grey"
 }
 // React component for the front side of the card
-class CardFront extends React.Component<any,any> {
+class CardFront extends React.Component<{fetchPost?: any; user?: any; post?: any},any> {
+
+  deletePost = (id:any) => {
+    console.log(id)
+    axios.delete("http://localhost:8080/api/deletepost", {params: id}
+                        // , {
+                        //     headers: { 'Access-Control-Allow-Origin': '*', "X-Requested-With": "XMLHttpRequest", 'Accept': 'application/json',
+                        //     'Content-Type': 'application/json' },
+                        //     }
+                    ).then((response:any) => { 
+                        this.props.fetchPost(this.props.user);
+                        console.log(response);
+                    }) 
+                    .catch((error)=> console.log(error));     
+  }
 
   flip = (id:any) => {
     // let cardBody = document.getElementsByClassName('card-body') as HTMLCollectionOf<HTMLElement>;
@@ -157,15 +187,16 @@ class CardFront extends React.Component<any,any> {
 //   }
 
   render() {
-      console.log(this.props.post.img);
-      console.log(this.props);
+      //console.log(this.props.post.img);
+     // console.log(this.props);
       var postId = this.props.post.date;
       var imgArray = this.props.post.img.slice(2, -2).split('","');
       var date = (new Date(parseFloat(this.props.post.date))).toString();
-      console.log(date);
-      console.log(imgArray);
+      //console.log(date);
+      //console.log(imgArray);
     return(
       <div className={'card-side side-front id'+postId} style={scrollStyle}>
+        <Icon link style={deleteStyle} name='delete' onClick={()=>this.deletePost(postId)}/>
         <i className="fa fa-commenting-o fa-2x comment-i" style={commentStyle} onClick={()=>this.flip(postId)}></i>
         <div className='container-fluid'>
           <div className='row'>
@@ -238,40 +269,26 @@ class CardBack extends React.Component<any,any> {
   render() {
       console.log(this.props);
       var postId = this.props.post.date;
+
     return(
       <div className={'card-side side-back id'+postId} style={scrollBackStyle}>
         <i className="fa fa-angle-double-right fa-2x comment-i" style={commentStyle} onClick={()=>this.flip(postId)}></i>
-        <div className='container-fluid'>
-          <h1>Let's get in touch!</h1>
+        
+        {/* <div className='container-fluid'>
+          <h3>Comments</h3>
           
-          <form action='' className='card-form'>
-            <div className='row'>
-              <div className='col-xs-6'>
-                <CardInput name='contactFirstName' id='contactFirstName' type='text' placeholder='Your first name' />
-              </div>
-
-              <div className='col-xs-6'>
-                <CardInput name='contactLastName' id='contactLastName' type='text' placeholder='Your last name' />
-              </div>
-            </div>
-
-            <div className='row'>
-              <div className='col-xs-6'>
-                <CardInput name='contactEmail' id='contactEmail' type='email' placeholder='Your email address' />
-              </div>
-
-              <div className='col-xs-6'>
-                <CardInput name='contactSubject' id='contactSubject' type='text' placeholder='Subject' />
-              </div>
-            </div>
+          <form action='' className='card-form'>            
+            <CardTextarea name='commentMessage' id='commentMessage' placeholder='Your comment' />
             
-            <CardTextarea name='contactMessage' id='contactMessage' placeholder='Your message' />
-            
-            <CardBtn className='btn btn-primary' type='submit' value='Send message' />
+            <CardBtn className='btn btn-primary' type='submit' value='Send comment' />
           </form>
-          
-          <CardProfileLinks />
-        </div>
+        
+        </div> */}
+
+         <h5 style={{marginTop: '0px'}}>Comments</h5>
+         <ViewCommentComponent post={this.props.post}/>
+         <AddCommentComponent postId={postId} user={this.props.user}/> 
+        
       </div>
     )
   }
@@ -299,14 +316,14 @@ class ViewPostComponent extends React.Component<{ post: any },any> {
     }
 
     render() {
-        console.log(this.props);
-        console.log(this.state);
+        //console.log(this.props);
+        //console.log(this.state);
         //var postId = this.props.post.date;
         return (
             <div className={'card-container id'+this.props.post.date}>
             <div className={'card-body id'+this.props.post.date}>
                 <CardBack post={this.props.post}/>
-                <CardFront post={this.props.post}/>
+                <CardFrontconnect post={this.props.post}/>
             </div>
             </div>
         )
@@ -316,9 +333,19 @@ class ViewPostComponent extends React.Component<{ post: any },any> {
 const mapStatetoProps = (state: any) => {
     console.log(state)
     return {
-      ...state
+      ...state, user: state.user
     };
 };
 
-export default connect(mapStatetoProps, {})(ViewPostComponent);
+const mapDispatchToProps = (dispatch: any) =>{
+  return {
+    fetchPost: (key: string) => {
+      console.log('run fetch post')
+      dispatch(ActionFetchPost(key));
+    }
+  };
+}
 
+var CardFrontconnect =  connect(mapStatetoProps, mapDispatchToProps)(CardFront);
+
+export default connect(mapStatetoProps, mapDispatchToProps)(ViewPostComponent);

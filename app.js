@@ -23,7 +23,14 @@ var LoginRoutes = require ('./routes/login-routes');
 var UserRoutes = require ('./routes/user-routes');
 var PostRoutes = require ('./routes/post-routes');
 var GetpostRoutes = require ('./routes/getpost-routes');
+var GetpostwithfollowRoutes = require ('./routes/getpost-routes');
+var DeletepostRoutes = require ('./routes/deletepost-routes');
 var BrokerRoutes = require ('./routes/broker-routes');
+var CommentRoutes = require ('./routes/comment-routes')
+var GetcommentRoutes = require ('./routes/getcomment-routes');
+var ShowUserRoutes = require ('./routes/showuser-routes');
+var GetfollowingRoutes = require ('./routes/getfollowing-routes');
+var AddfollowingRoutes = require ('./routes/addfollowing-routes');
 
 //service file
 const UserService = require('./services/user-service');
@@ -75,7 +82,14 @@ app.use('/api/login', new LoginRoutes(userService).router());
 app.use('/api/user', new UserRoutes(userService).router());
 app.use('/api/post', new PostRoutes(userService).router());
 app.use('/api/getpost', new GetpostRoutes(userService).router());
+app.use('/api/getpostwithfollow', new GetpostwithfollowRoutes(userService).router());
+app.use('/api/deletepost', new DeletepostRoutes(userService).router());
+app.use('/api/comment', new CommentRoutes(userService).router());
+app.use('/api/getcomment', new GetcommentRoutes(userService).router());
 app.use('/api/broker', new BrokerRoutes(brokerService).router());
+app.use('/api/showuser', new ShowUserRoutes(userService).router());
+app.use('/api/getfollowing', new GetfollowingRoutes(userService).router());
+app.use('/api/addfollowing', new AddfollowingRoutes(userService).router());
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

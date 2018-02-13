@@ -38,3 +38,24 @@ export function ActionFetchPost(key: any) {
         payload: axios.post("http://localhost:8080/api/getpost", key)
     };
 }
+
+export function ActionFetchPostWithFollowing(key: any, follow: any) {
+    return {
+        type: "GET_POST",
+        payload: axios.post("http://localhost:8080/api/getpostwithfollow", {user: key, follow: follow})
+    };
+}
+
+export function ActionFetchComment(post: any) {
+    return {
+        type: "GET_COMMENT",
+        payload: axios.post("http://localhost:8080/api/getcomment", post)
+    };
+}
+
+export function ActionAddFollowing(key: any) {
+    return {
+        type: "ADD_FOLLOWING",
+        payload: axios.post("http://localhost:8080/api/addfollowing", key)
+    };
+}

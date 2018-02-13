@@ -249,7 +249,7 @@ class CandleStickChartWithStandardDeviationChannel extends React.Component {
             <div>
                 <div className="ui grid">
                     <div className="column">
-                        <div className="ui tabular">
+                        <div className="ui tabular" style = {{zIndex: 40, position: 'relative'}}>
                         <Menu vertical tabular style = {menuStyle}>
                             <Menu.Item onClick={this.channel} onMouseOver={()=>this.svgHoverOn("channel")} onMouseOut={()=>this.svgHoverOut("channel")} onLoad={()=>this.svgHoverOut("channel")}>
                                 <svg className="channel" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width="28" height="28"><g fillRule="nonzero"><path d="M7.463 12.026l13.537-7.167-.468-.884-13.537 7.167z"></path><path d="M22.708 16.824l-17.884 9.468.468.884 17.884-9.468z"></path><path d="M22.708 9.824l-15.839 8.386.468.884 15.839-8.386z"></path><path d="M5.5 14c.828 0 1.5-.672 1.5-1.5s-.672-1.5-1.5-1.5-1.5.672-1.5 1.5.672 1.5 1.5 1.5zm0 1c-1.381 0-2.5-1.119-2.5-2.5s1.119-2.5 2.5-2.5 2.5 1.119 2.5 2.5-1.119 2.5-2.5 2.5zM5.5 21c.828 0 1.5-.672 1.5-1.5s-.672-1.5-1.5-1.5-1.5.672-1.5 1.5.672 1.5 1.5 1.5zm0 1c-1.381 0-2.5-1.119-2.5-2.5s1.119-2.5 2.5-2.5 2.5 1.119 2.5 2.5-1.119 2.5-2.5 2.5zM22.5 5c.828 0 1.5-.672 1.5-1.5s-.672-1.5-1.5-1.5-1.5.672-1.5 1.5.672 1.5 1.5 1.5zm0 1c-1.381 0-2.5-1.119-2.5-2.5s1.119-2.5 2.5-2.5 2.5 1.119 2.5 2.5-1.119 2.5-2.5 2.5z"></path></g></svg>
@@ -265,7 +265,7 @@ class CandleStickChartWithStandardDeviationChannel extends React.Component {
                             </Menu.Item>
                         </Menu>
                         </div>
-                </div>
+                	</div>
                 <div className="wide column">
 
                     <ChartCanvas ref={this.saveCanvasNode}

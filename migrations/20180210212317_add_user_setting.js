@@ -5,6 +5,7 @@ exports.up = function(knex, Promise) {
         table.json('watchlist');
         table.string('igtoken');
         table.string('oandatoken');
+        table.string('following');
     });
 };
 
@@ -14,5 +15,6 @@ exports.down = function(knex, Promise) {
         table.dropColumn('watchlist');
         table.dropColumn('igtoken');
         table.dropColumn('oandatoken');
+        table.dropColumn('following');
     });
 };

@@ -24,6 +24,8 @@ interface MainPartProps {
   getUserSetting: Function;
   checkIGBrokerToken: Function;
   checkOandaBrokerToken: Function;
+  fetchFollowing: Function;
+  user?:any;
 }
 
 // import List from '../news/list';
@@ -31,7 +33,7 @@ interface MainPartProps {
 // import Newslist from '../news/newsList';
 
 // import { ActionFetchNews } from '../../actions/newsAction';
-import { getUserSetting, oandaTokenValidity } from '../../actions/userAction';
+import { getUserSetting, oandaTokenValidity, ActionGetFollowing } from '../../actions/userAction';
 
 interface MainPartProps { 
   getUserSetting: Function;
@@ -53,6 +55,10 @@ class MainPart extends React.Component<MainPartProps, MainPartState> {
       if (this.props.oandatoken) {
         this.props.checkOandaBrokerToken(this.props.oandatoken);
       }
+      if (this.props.user) {
+        console.log('getfollowing')
+        this.props.fetchFollowing({email:this.props.user});
+      }
     }); 
   }
 
@@ -72,15 +78,21 @@ class MainPart extends React.Component<MainPartProps, MainPartState> {
 } // End MainPart Class
 
 const mapStatetoProps = (state: any, props: any) => {
+  //console.log(state);
   return {
     ...props,
     igtoken: state.user.igtoken,
     oandatoken: state.user.oandatoken,
+    user: state.user.email,
+    following: state.user.following
   };
 };
 
 const mapDispatchToProps = (dispatch: any) =>{
   return {
+    fetchFollowing: (key: string) => {
+      dispatch(ActionGetFollowing(key));
+    },
     getUserSetting: () => {
       return dispatch(getUserSetting());
     },

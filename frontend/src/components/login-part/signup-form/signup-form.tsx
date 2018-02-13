@@ -7,11 +7,14 @@ import { Button, Form } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 
 // import action
-import { addToken } from '../../../actions/userAction';
+import { addToken, addEmail, addName, addFollowing } from '../../../actions/userAction';
 import { successMsg, failMsg, hideMsg } from '../../../actions/notificationAction';
 
 interface SignFormProps {
   addToken: Function;
+  addEmail?: Function;
+  addFollowing?: Function;
+  addName?: Function;
   sendSuccessMsg: Function;
   sendFailMsg: Function;
   handleSignup: Function;
@@ -240,9 +243,12 @@ const mapDispatchToProps = (dispatch: any) => {
       }).then((res) => {
         console.log(res.data.token);
         // add the token onto the store
-        dispatch(addToken(res.data.token));
+        dispatch(addName(res.data.email));
+        dispatch(addEmail(res.data.email));
+        dispatch(addFollowing(''));
         dispatch(successMsg('Sign Up Successful!', 'Take a look around.'));
         setTimeout(() => { dispatch(hideMsg()); }, 3000);
+        dispatch(addToken(res.data.token));
       }).catch((err) => {
         console.log(err);
         dispatch(failMsg('Sign Up Unsuccessful!', 'That email already exist'));
@@ -251,6 +257,12 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     addToken: (token: string) => {
       dispatch(addToken(token));
+    },
+    addName: (name: string) => {
+      dispatch(addName(name));
+    },
+    addEmail: (email: string) => {
+      dispatch(addEmail(email));
     },
     sendSuccessMsg: (title: string, message: string) => {
       dispatch(successMsg(title, message));

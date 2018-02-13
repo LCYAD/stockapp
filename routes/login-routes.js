@@ -28,7 +28,9 @@ class LoginRoutes {
                     };
                     var token = jwt.encode(payload, config.jwtSecret);
                     res.json({
-                        token: token
+                        token: token,
+                        email: req.body.email,
+                        username: req.body.name
                     });
                 } else {
                     res.sendStatus(401);
@@ -57,7 +59,9 @@ class LoginRoutes {
                             };
                             var token = jwt.encode(payload, config.jwtSecret);
                             res.json({
-                                token: token
+                                token: token,
+                                email: data.data.email,
+                                username: data.data.name
                             });
                         } else {
                             //create a new user
@@ -68,7 +72,9 @@ class LoginRoutes {
                                 };
                                 var token = jwt.encode(payload, config.jwtSecret);
                                 res.json({
-                                    token: token
+                                    token: token,
+                                    email: data.data.email,
+                                    username: data.data.name
                                 });
                             })
                         }
@@ -96,7 +102,9 @@ class LoginRoutes {
             console.log(payload);
             var token = jwt.encode(payload, config.jwtSecret);
             res.json({
-                token: token
+                token: token,
+                email: req.body.email,
+                username: req.body.email
             });
         }).catch((err)=>{
             console.log(err);

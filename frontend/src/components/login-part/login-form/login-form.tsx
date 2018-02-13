@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import SocialButton from '../../../components/social-login-btn/social-login-btn';
 
 // import action
-import { addToken } from '../../../actions/userAction';
+import { addToken, addEmail, addName, addFollowing } from '../../../actions/userAction';
 import { successMsg, failMsg, hideMsg } from '../../../actions/notificationAction';
 import { hideLeftPanel, hideRightPanel } from '../../../actions/panelToggleAction';
 
@@ -217,9 +217,13 @@ const mapDispatchToProps = (dispatch: any) => {
       }).then((res) => {
         // console.log(res.data.token);
         // add the token onto the store
-        dispatch(addToken(res.data.token));
+        console.log(res);
+        dispatch(addName(res.data.username));
+        dispatch(addFollowing(res.data.following));
+        dispatch(addEmail(res.data.email));
         dispatch(successMsg('Login Success', 'You can now access our app!'));
         setTimeout(() => { dispatch(hideMsg()); }, 3000);
+        dispatch(addToken(res.data.token));
       }).catch((err) => {
         console.log(err);
         dispatch(failMsg('Login Failed', 'Something went wrong!'));
@@ -235,11 +239,14 @@ const mapDispatchToProps = (dispatch: any) => {
         email: email,
         password: password
       }).then((res) => {
-        // console.log(res.data.token);
+        console.log(res.data);
         // add the token onto the store
-        dispatch(addToken(res.data.token));
+        dispatch(addName(res.data.email));
+        dispatch(addEmail(res.data.email));
+        dispatch(addFollowing(res.data.following));
         dispatch(successMsg('Login Success', 'You can now access our app!'));
         setTimeout(() => { dispatch(hideMsg()); }, 3000);
+        dispatch(addToken(res.data.token));
       }).catch((err) => {
         console.log(err);
         dispatch(failMsg('Login Failed', 'Please check your input!'));
