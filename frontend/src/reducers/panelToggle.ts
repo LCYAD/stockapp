@@ -7,8 +7,10 @@ interface ReducerState {
     mainLoad: boolean;
     TAccountPane1: boolean;
     TAccountPane2: boolean;
+    TAccountPane3: boolean;
     TPositionPane1: boolean;
     TPositionPane2: boolean;
+    
 }
 
 interface ReducerAction {
@@ -25,6 +27,7 @@ const InitState = {
     mainLoad: false,
     TAccountPane1: false,
     TAccountPane2: false,
+    TAccountPane3: false,
     TPositionPane1: false,
     TPositionPane2: false,
 };

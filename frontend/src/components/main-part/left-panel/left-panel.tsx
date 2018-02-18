@@ -15,7 +15,7 @@ import  {   hideLeftPanel, hideRightPanel, showLeftPanel,
 
 // import components
 import TerminalLinkBtn from './terminal-link-btn/terminal-link-btn';
-import FundamentalLinkBtn from './fundamental-link-btn/fundamnetal-link-btn';
+// import FundamentalLinkBtn from './fundamental-link-btn/fundamnetal-link-btn';
 import CommunityLinkBtn from './community-link-btn/community-link-btn';
 
 interface LeftPanelProps {
@@ -52,7 +52,7 @@ class LeftPanel extends React.Component<LeftPanelProps, LeftPanelState> {
     loadTerminalLinkBtn() {
         return (
             <div>
-                <FundamentalLinkBtn />
+                {/* <FundamentalLinkBtn /> */}
                 <CommunityLinkBtn />
             </div>
         );
@@ -71,7 +71,7 @@ class LeftPanel extends React.Component<LeftPanelProps, LeftPanelState> {
         return (
             <div>
                 <TerminalLinkBtn />
-                <FundamentalLinkBtn />
+                {/* <FundamentalLinkBtn /> */}
             </div>
         );
     }
@@ -196,12 +196,12 @@ class LeftPanel extends React.Component<LeftPanelProps, LeftPanelState> {
                                 this.loadTerminalLinkBtn()
                             )}
                         />
-                        <Route
+                        {/* <Route
                             path={`${this.props.match.path}/fundamental`}
                             render={()=> (
                                 this.loadFundamentalLinkBtn()
                             )}
-                        />
+                        /> */}
                         <Route
                             path={`${this.props.match.path}/community`}
                             render={()=> (

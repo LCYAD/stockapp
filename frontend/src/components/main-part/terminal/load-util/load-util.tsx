@@ -37,7 +37,7 @@ class LoadUtil extends React.Component<LoadUtilProps, LoadUtilState> {
             );
         } else if (this.props.panelStatus[this.props.panel] === 'chart') {
             return (
-                <ChartPanel panel={this.props.panel}/>
+                <ChartPanel panel={this.props.panel} instru="EUR_USD" />
             );
         } else {
             return (

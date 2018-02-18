@@ -57,6 +57,10 @@ class ChartComponent extends React.Component<ChartProps> {
         // this.handleFetchDropdown = this.handleFetchDropdown.bind(this);
 	}
 
+    componentWillMount() {
+        this.props.fetchChartDataGran ("EUR_USD","S30")
+    }
+
     granularityChange(gran: string) {
         console.log(this.props.instru)
         console.log(gran)

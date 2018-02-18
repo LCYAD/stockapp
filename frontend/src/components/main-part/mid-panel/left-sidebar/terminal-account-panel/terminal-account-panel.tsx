@@ -8,11 +8,13 @@ import { connect } from 'react-redux';
 // import components
 import TerminalAccountsDetail from './terminal-accounts-detail/terminal-accounts-detail';
 import TerminalPositions from './terminal-positions/terminal-positions';
+import BuySell  from './buy-sell/buy-sell';
 
 
 interface TerminalAccountPanelProps { 
     TAccountPane1: boolean;
     TAccountPane2: boolean;
+    TAccountPane3: boolean;
 }
 
 interface TerminalAccountPanelState { }
@@ -41,6 +43,16 @@ class TerminalAccountPanel extends React.Component<TerminalAccountPanelProps, Te
                         <TerminalPositions />
                     </Tab.Pane>
                     )},
+            { menuItem: 'Buy & Sell', 
+                    render: () => (
+                        <Tab.Pane 
+                            attached={false}
+                            className="terminal-account-tab-pane"
+                            loading={this.props.TAccountPane3}
+                        >
+                            <BuySell />
+                        </Tab.Pane>
+                        )},
         ];
 
         return (
@@ -60,7 +72,8 @@ const mapStatetoProps = (state: any, props: any) => {
     return {
         ...props,
         TAccountPane1: state.panelToggle.TAccountPane1,
-        TAccountPane2: state.panelToggle.TAccountPane2
+        TAccountPane2: state.panelToggle.TAccountPane2,
+        TAccountPane3: state.panelToggle.TAccountPane3,
     };
 };
 

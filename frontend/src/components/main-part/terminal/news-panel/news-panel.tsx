@@ -21,7 +21,7 @@ class NewsPanel extends React.Component<NewsPanelProps, NewsPanelState> {
   } 
 
   componentWillMount() {
-    //this.props.fetchNews();
+    this.props.fetchNews("ERO");
   }
 
   newsShow() {
